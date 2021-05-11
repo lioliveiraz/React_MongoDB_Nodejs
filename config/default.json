@@ -1,0 +1,4 @@
+{
+    "mongoURI":"mongodb+srv://ligia_user:osuperhomem@htc.nqaeq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "jwtSecret":"gdrgdfgbd534h8564ghd68r4gs654fed5s4e6s54gv6s8g4e6s"
+}
