@@ -20,10 +20,10 @@ function Wall({ wall }) {
       const draggableColumn = columns.find((e) => e[0] == dragColumnName);
       const droppableColumn = columns.find((e) => e[0] == dropColumnName);
 
-      const dragTask = draggableColumn[1][task];
-
-      const [reorderedTask] = draggableColumn[1].splice(dragTask, 1);
+      const dragTask = draggableColumn[1][task]._id;
+      const [reorderedTask] = draggableColumn[1].splice(task, 1);
       droppableColumn[1].splice(result.destination.index, 0, reorderedTask);
+      console.log(dragTask);
       updateColumns(columnsUpdated);
     }
   };

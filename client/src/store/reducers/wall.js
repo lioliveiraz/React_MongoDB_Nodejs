@@ -1,4 +1,5 @@
-import { GET_WALL } from "../actions/types";
+import { GET_WALL, TO_HOT } from "../actions/types";
+import { TO_COLD } from "./../actions/types";
 
 const initialState = {
   hot: [],
@@ -16,6 +17,10 @@ export default function (state = initialState, action) {
         cold: payload.cold,
         pool: payload.pool,
       };
+    case TO_COLD:
+      return state;
+    case TO_HOT:
+      return state;
     default:
       return state;
   }

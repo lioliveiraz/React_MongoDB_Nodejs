@@ -6,7 +6,8 @@ const gravatar = require("gravatar");
 const bp = require("bcryptjs");
 const auth = require("../../../middleware/auth");
 const Technologies = require("../../../models/Technologies");
-const cors = require("../../../middleware/CORS");
+const Wall = require("../../../models/Walls");
+
 /**
  * @route GET api/users
  * @description get all users
@@ -52,7 +53,10 @@ router.post(
     }
 
     try {
-      let user = await User.findOne({ email });
+      let user, wall, technologies;
+
+      technologies = await Technologies.find();
+      user = await User.findOne({ email });
       if (user) {
         return res.status(400).json({
           errors: [{ msg: "You are already registered." }],
@@ -71,6 +75,14 @@ router.post(
         avatar,
         password,
       });
+
+      wall = new Wall({
+        user: user.id,
+        hot: [],
+        cold: [],
+        pool: technologies,
+      });
+      await wall.save();
 
       const salt = await bp.genSalt(10);
       user.password = await bp.hash(password, salt);

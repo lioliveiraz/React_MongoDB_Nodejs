@@ -14,7 +14,7 @@ const auth = require("../../../middleware/auth");
 
 router.get("/", async (req, res) => {
   try {
-    const techs = await Technologies.find();
+    const techs = await Technologies.find().sort("-date");
     res.status(200).send({ techs });
   } catch (err) {
     console.error(err);
@@ -64,7 +64,9 @@ router.post(
     const errors = validationResult(req);
     let technology;
     const { name, description, creator, image } = req.body;
+    const date = new Date();
     const votes = 0;
+
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -72,13 +74,11 @@ router.post(
       technology = await Technologies.findOne({ name });
 
       if (technology) {
-        return res
-          .status(400)
-          .json({
-            errors: [
-              { msg: "Ops!! This Tech is already registered. Try another one" },
-            ],
-          });
+        return res.status(400).json({
+          errors: [
+            { msg: "Ops!! This Tech is already registered. Try another one" },
+          ],
+        });
       } else {
         technology = new Technologies({
           name,
@@ -86,18 +86,17 @@ router.post(
           creator,
           votes,
           image,
+          date,
         });
 
         image
           ? (technology.image = image)
           : (technology.image = "https://via.placeholder.com/300/09f/fff.png");
         const savedTech = await technology.save();
-        res
-          .status(200)
-          .json({
-            message: "Congratulations!You registered a new tech.",
-            id: savedTech._id,
-          });
+        res.status(200).json({
+          message: "Congratulations!You registered a new tech.",
+          id: savedTech._id,
+        });
       }
     } catch (err) {
       console.error(err);

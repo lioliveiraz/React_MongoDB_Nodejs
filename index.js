@@ -17,5 +17,6 @@ app.use("/api/users", require("./routes/api/users/users"));
 app.use("/api/techs", require("./routes/api/technologies/technologies"));
 app.use("/api/login", require("./routes/api/users/login"));
 app.use("/api/profile", require("./routes/api/profile/profile"));
+app.use("/api/wall", require("./routes/api/wall/wall"));
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
