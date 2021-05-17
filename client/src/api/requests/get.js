@@ -12,9 +12,18 @@ export const fetchMyProfile = async (token) => {
   return response;
 };
 
+export const fetchDeveloperProfile = async (id) => {
+  const response = await http.get(`profile/user/${id}`);
+  return response.data;
+};
 export const fetchMyWall = async (token) => {
   const response = await http.get("/wall/me", {
     headers: { Authorization: "Bearer " + token },
   });
+  return response.data;
+};
+
+export const fetchDevelopers = async () => {
+  const response = await http.get("users");
   return response.data;
 };

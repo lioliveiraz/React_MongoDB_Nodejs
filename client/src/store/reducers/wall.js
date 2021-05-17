@@ -1,5 +1,4 @@
-import { GET_WALL, TO_HOT } from "../actions/types";
-import { UPDATE_WALL } from "./../actions/types";
+import { GET_WALL, UPDATE_WALL } from "../actions/types";
 
 const initialState = {
   hot: [],

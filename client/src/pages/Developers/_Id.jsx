@@ -1,7 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import ProfileCard from "./../../components/Base/ProfileCard";
+import { connect } from "react-redux";
+import { getProfilePerId } from "./../../store/actions/profile";
 
-function DeveloperProfile(props) {
-  return <div>Id</div>;
+function DeveloperProfile({ getProfilePerId, userProfile }) {
+  const { id } = useParams();
+
+  useEffect(() => {
+    async function getDeveloper() {
+      await getProfilePerId(id);
+    }
+    getDeveloper();
+  }, []);
+
+  if (!userProfile) {
+    return <div>Loading</div>;
+  }
+
+  return (
+    <div>
+      <ProfileCard profile={userProfile} />
+    </div>
+  );
 }
-
-export default DeveloperProfile;
+export const MapStateToProps = (state) => {
+  return {
+    userProfile: state.profile,
+  };
+};
+export default connect(MapStateToProps, { getProfilePerId })(DeveloperProfile);

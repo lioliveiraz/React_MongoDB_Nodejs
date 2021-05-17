@@ -1,8 +1,22 @@
 import { GET_WALL, UPDATE_WALL } from "../actions/types";
-import { fetchMyWall } from "./../../api/requests/get";
+import { fetchMyWall, fetchTechs } from "./../../api/requests/get";
 import { updateWallAPI, updateVoteAPI } from "./../../api/requests/put";
 
-export const buildWall = (token) => async (dispatch) => {
+export const buildCommonWall = () => async (dispatch) => {
+  try {
+    let res = await fetchTechs();
+    res = res.techs;
+    const hot = res.filter((tech) => tech.votes > 0).slice(0, 10);
+    const cold = res.filter((tech) => tech.votes < 0).slice(0, 10);
+    const pool = res.filter((tech) => tech.votes == 0);
+
+    dispatch({ type: GET_WALL, payload: { hot, cold, pool } });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const buildPersonalWall = (token) => async (dispatch) => {
   try {
     const res = await fetchMyWall(token);
     const hot = res.hot.slice(0, 10);

@@ -2,24 +2,20 @@ const express = require("express");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const User = require("../../../models/User");
-const gravatar = require("gravatar");
-const bp = require("bcryptjs");
-const auth = require("../../../middleware/auth");
-const Technologies = require("../../../models/Technologies");
-const Wall = require("../../../models/Walls");
+const { isUser, createUser } = require("./helpers");
 
 /**
  * @route GET api/users
  * @description get all users
- * @access  private
+ * @access  public
  */
 
-router.get("/", auth, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const users = await User.find();
     res.status(200).json(users);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     res.status(500).json({
       errors: {
         msg: "Something went wrong with our servers, try again latter!",
@@ -30,8 +26,8 @@ router.get("/", auth, async (req, res) => {
 
 /**
  * @route       POST api/users
- * @description Register user
- * @access      Public
+ * @description Register new user
+ * @access      public
  */
 
 router.post(
@@ -47,50 +43,27 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    const { name, email, password } = req.body;
+    const userData = req.body;
+
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
     try {
-      let user, wall, technologies;
-
-      technologies = await Technologies.find();
-      user = await User.findOne({ email });
+      let user;
+      user = await isUser(req.body.email);
       if (user) {
         return res.status(400).json({
           errors: [{ msg: "You are already registered." }],
         });
       }
-
-      const avatar = gravatar.url(email, {
-        s: "200",
-        r: "pg",
-        d: "mm",
-      });
-
-      user = new User({
-        name,
-        email,
-        avatar,
-        password,
-      });
-
-      wall = new Wall({
-        user: user.id,
-        hot: [],
-        cold: [],
-        pool: technologies,
-      });
-      await wall.save();
-
-      const salt = await bp.genSalt(10);
-      user.password = await bp.hash(password, salt);
-
+      user = await createUser(userData);
       await user.save();
-      res.status(200).json({ msg: "You have been registered." });
-    } catch (err) {
-      console.log(err);
+      res
+        .status(200)
+        .json({ msg: `Hello, ${user.name}! You have been registered.` });
+    } catch (error) {
+      console.log(error);
       res.status(500).json({
         errors: {
           msg: "Something went wrong with our servers, try again latter!",

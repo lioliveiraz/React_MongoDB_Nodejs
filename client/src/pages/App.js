@@ -24,10 +24,10 @@ function App({ isAuthenticated }) {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/developers">
+        <Route exact path="/developers">
           <Developers />
         </Route>
-        <Route path="/developers/id">
+        <Route path="/developers/:id">
           <DeveloperProfile />
         </Route>
 

@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
-import { updateWall, updateVotes, buildWall } from "./../../store/actions/wall";
+import {
+  updateWall,
+  updateVotes,
+  buildPersonalWall,
+} from "./../../store/actions/wall";
+import { findColumn } from "../../helpers/services";
 
-function Wall({ buildWall, wall, token, updateWall, updateVotes }) {
+function Wall({ buildPersonalWall, wall, token, updateWall, updateVotes }) {
   const [columnsUpdated, updateColumns] = useState([]);
 
   useEffect(() => {
     async function getWall() {
-      buildWall(token);
+      buildPersonalWall(token);
     }
     getWall();
   }, []);
@@ -18,20 +23,23 @@ function Wall({ buildWall, wall, token, updateWall, updateVotes }) {
   }, [wall]);
 
   const handleOnDropEnd = (result) => {
-    const columns = Array.from(columnsUpdated);
-    const dropColumnName = result.destination.droppableId;
-    const dragColumnName = result.source.droppableId;
+    if (result.destination) {
+      const columns = Array.from(columnsUpdated);
+      const dropColumnName = result.destination.droppableId;
+      const dragColumnName = result.source.droppableId;
 
-    if (dragColumnName !== dropColumnName) {
-      const task = result.source.index;
-      const draggableColumn = columns.find((e) => e[0] == dragColumnName);
-      const droppableColumn = columns.find((e) => e[0] == dropColumnName);
-      const dragTaskID = draggableColumn[1][task]._id;
-      const [reorderedTask] = draggableColumn[1].splice(task, 1);
-      droppableColumn[1].splice(result.destination.index, 0, reorderedTask);
+      if (dragColumnName !== dropColumnName && dropColumnName != "pool") {
+        const task = result.source.index;
+        const draggableColumn = findColumn(columns, dragColumnName);
+        const droppableColumn = findColumn(columns, dropColumnName);
 
-      updateVotes(dragTaskID, dropColumnName);
-      updateWall(columnsUpdated, token);
+        const dragTaskID = draggableColumn[1][task]._id;
+        const [reorderedTask] = draggableColumn[1].splice(task, 1);
+        droppableColumn[1].splice(result.destination.index, 0, reorderedTask);
+
+        updateVotes(dragTaskID, dropColumnName, token);
+        updateWall(columnsUpdated, token);
+      }
     }
   };
 
@@ -97,6 +105,8 @@ const MapStateToProps = (state) => {
   };
 };
 
-export default connect(MapStateToProps, { updateWall, updateVotes, buildWall })(
-  Wall
-);
+export default connect(MapStateToProps, {
+  updateWall,
+  updateVotes,
+  buildPersonalWall,
+})(Wall);

@@ -2,9 +2,13 @@ const express = require("express");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const Technologies = require("../../../models/Technologies");
-const User = require("../../../models/User");
-const cors = require("../../../middleware/CORS");
 const auth = require("../../../middleware/auth");
+const {
+  findTechAndReturnTotalVotes,
+  handleUpdateVotes,
+  findTechnology,
+  createNewTech,
+} = require("./helpers");
 
 /**
  * @route GET api/techs
@@ -16,8 +20,8 @@ router.get("/", async (req, res) => {
   try {
     const techs = await Technologies.find().sort("-date");
     res.status(200).send({ techs });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
     res
       .status(500)
       .send("Something went wrong with our server. Try again later");
@@ -30,16 +34,13 @@ router.get("/", async (req, res) => {
  * @access private
  */
 
-router.put("/vote", async (req, res) => {
+router.put("/vote", auth, async (req, res) => {
   const { id, userVote } = req.body;
-  const tech = await Technologies.findById({ _id: id });
-  const updatedVotes = tech.votes + userVote;
+
   try {
-    const filter = { _id: id };
-    const update = { votes: updatedVotes };
-    const tech = await Technologies.findOneAndUpdate(filter, update, {
-      new: true,
-    });
+    const votes = await findTechAndReturnTotalVotes(id);
+    const updatedVote = votes + userVote;
+    await handleUpdateVotes(id, updatedVote);
     res.status(200).end();
   } catch (err) {
     console.error(err);
@@ -51,7 +52,7 @@ router.put("/vote", async (req, res) => {
 
 /**
  * @route POST api/techs
- * @description post new technology
+ * @description register new technology
  * @access Public
  */
 
@@ -63,44 +64,34 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    let technology;
-    const { name, description, creator, image } = req.body;
-    const date = new Date();
-    const votes = 0;
-
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+
+    let technology;
+    const techData = req.body;
+
     try {
-      technology = await Technologies.findOne({ name });
+      technology = await findTechnology(techData.name);
 
       if (technology) {
         return res.status(400).json({
           errors: [
-            { msg: "Ops!! This Tech is already registered. Try another one" },
+            {
+              msg: "Ops!! This technology is already registered. Try another one",
+            },
           ],
         });
-      } else {
-        technology = new Technologies({
-          name,
-          description,
-          creator,
-          votes,
-          image,
-          date,
-        });
-
-        image
-          ? (technology.image = image)
-          : (technology.image = "https://via.placeholder.com/300/09f/fff.png");
-        const savedTech = await technology.save();
-        res.status(200).json({
-          message: "Congratulations!You registered a new tech.",
-          id: savedTech._id,
-        });
       }
-    } catch (err) {
-      console.error(err);
+      technology = await createNewTech(techData);
+      const savedTech = await technology.save();
+
+      res.status(200).json({
+        message: "Congratulations! You registered a new tech.",
+        id: savedTech._id,
+      });
+    } catch (error) {
+      console.error(error);
       res
         .status(500)
         .send("Something went wrong with our server. Try again later");

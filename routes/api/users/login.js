@@ -1,12 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const bp = require("bcryptjs");
-const User = require("../../../models/User");
-const jwt = require("jsonwebtoken");
-const config = require("config");
+const { isAuthenticated, createToken } = require("./helpers");
 
 /**
- * @route POST
+ * @route POST api/login
  * @description log in the user and receive token
  * @access Public
  */
@@ -14,33 +11,20 @@ const config = require("config");
 router.post("/", async (req, res) => {
   const { email, password } = req.body;
   try {
-    let user = await User.findOne({ email });
-    if (!user) return res.status(404).json({ msg: "User not found" });
-    const payload = {
-      user: {
-        id: user.id,
-      },
-    };
+    const userObject = await isAuthenticated(email, password);
+    if (!userObject) return res.status(404).json({ msg: "User not found" });
 
-    const hashPass = user.password;
-    const isPasswordCorrect = await bp.compare(password, hashPass);
+    const { isPasswordCorrect, user } = userObject;
+    const payload = { user: { id: user.id } };
 
     if (isPasswordCorrect) {
-      jwt.sign(
-        payload,
-        config.get("jwtSecret"),
-        { expiresIn: "1d" },
-        (error, token) => {
-          if (error) throw error;
-
-          res.status(200).json({ token });
-        }
-      );
+      const token = createToken(payload);
+      res.status(200).json({ token });
     } else {
       res.status(400).json({ msg: "Incorrect password" });
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     res.status(500).json({
       errors: {
         msg: "Something went wrong with our servers, try again latter!",

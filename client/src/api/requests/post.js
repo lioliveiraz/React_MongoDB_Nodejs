@@ -9,3 +9,11 @@ export const login = async (userObject) => {
   const response = await http.post("/login", userObject);
   return response;
 };
+
+export const registerProfile = async (profileObj, token) => {
+  const response = await http.post("/profile", profileObj, {
+    headers: { Authorization: "Bearer " + token },
+  });
+
+  return response;
+};
