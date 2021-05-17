@@ -6,13 +6,13 @@ const WallsSchema = new mongoose.Schema({
   },
 
   hot: {
-    type: [String],
+    type: [Object],
   },
   pool: {
-    type: [String],
+    type: [Object],
   },
   cold: {
-    type: [String],
+    type: [Object],
   },
 });
 

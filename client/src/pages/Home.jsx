@@ -1,27 +1,15 @@
 import React, { useEffect } from "react";
-import Wall from "../components/Wall/Wall";
 import { connect } from "react-redux";
-import { buildWall } from "./../store/actions/wall";
 
-function Home({ buildWall, wall }) {
-  useEffect(() => {
-    async function getWall() {
-      buildWall();
-    }
-    getWall();
-  }, []);
-
-  return (
-    <div>
-      <Wall wall={wall} />
-    </div>
-  );
+function Home() {
+  return <div></div>;
 }
 
 const mapStateToProps = (state) => {
   return {
     wall: state.wall,
+    token: state.auth.token,
   };
 };
 
-export default connect(mapStateToProps, { buildWall })(Home);
+export default connect(null, {})(Home);

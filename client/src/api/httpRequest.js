@@ -1,8 +1,9 @@
-import axios from 'axios'
+import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:5000/api"
+axios.defaults.baseURL = "http://localhost:5000/api";
 
-export default{
-    get:axios.get,
-    post:axios.post
-}
+export default {
+  get: axios.get,
+  post: axios.post,
+  put: axios.put,
+};

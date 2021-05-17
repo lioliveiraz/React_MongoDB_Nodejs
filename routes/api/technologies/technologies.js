@@ -25,17 +25,18 @@ router.get("/", async (req, res) => {
 });
 
 /**
- * @route POST api/techs/vote
+ * @route PUT api/techs/vote
  * @description increase or decrease the technology vote
  * @access private
  */
 
-router.post("/vote", async (req, res) => {
-  const { id, newVoteValue } = req.body;
-
+router.put("/vote", async (req, res) => {
+  const { id, userVote } = req.body;
+  const tech = await Technologies.findById({ _id: id });
+  const updatedVotes = tech.votes + userVote;
   try {
     const filter = { _id: id };
-    const update = { votes: newVoteValue };
+    const update = { votes: updatedVotes };
     const tech = await Technologies.findOneAndUpdate(filter, update, {
       new: true,
     });

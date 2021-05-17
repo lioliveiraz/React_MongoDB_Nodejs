@@ -88,7 +88,7 @@ router.post(
       user.password = await bp.hash(password, salt);
 
       await user.save();
-      res.status(200).json({ msg: "You are registered." });
+      res.status(200).json({ msg: "You have been registered." });
     } catch (err) {
       console.log(err);
       res.status(500).json({

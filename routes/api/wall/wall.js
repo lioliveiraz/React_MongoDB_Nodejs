@@ -11,8 +11,39 @@ const Wall = require("../../../models/Walls");
 router.get("/me", auth, async (req, res) => {
   const user = req.user.id;
 
-  const wall = await Wall.findOne({ user });
-  console.log(wall);
+  try {
+    const wall = await Wall.findOne({ user });
+    res.status(200).json(wall);
+  } catch (error) {
+    res.status(500).json({
+      errors: {
+        msg: "Something went wrong with our servers, try again latter!",
+      },
+    });
+  }
+});
+
+/**
+ * @route UPDATE api/wall/update-wall
+ * @description update the wall data
+ * @access private
+ */
+
+router.put("/update-wall", auth, async (req, res) => {
+  const user = req.user.id;
+  let updatedWall = req.body;
+  updatedWall["user"] = user;
+
+  try {
+    let wall = await Wall.findOneAndUpdate(
+      { user },
+      { $set: updatedWall },
+      { new: true }
+    );
+    wall.save();
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 module.exports = router;

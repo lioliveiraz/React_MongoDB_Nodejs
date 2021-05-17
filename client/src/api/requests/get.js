@@ -11,3 +11,10 @@ export const fetchMyProfile = async (token) => {
   });
   return response;
 };
+
+export const fetchMyWall = async (token) => {
+  const response = await http.get("/wall/me", {
+    headers: { Authorization: "Bearer " + token },
+  });
+  return response.data;
+};
