@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "./../components/Base/Input";
-import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { handlerLogin } from "../store/actions/auth";
+import { toast } from "react-toastify";
 
-function Login({ handlerLogin, isAuthenticated }) {
-  const history = useHistory();
+function Login({ handlerLogin, errors }) {
   const [userObject, setUserObject] = useState({});
 
   const getUserInput = (value, name) => {
@@ -17,8 +16,13 @@ function Login({ handlerLogin, isAuthenticated }) {
 
   const submit = async (e) => {
     e.preventDefault();
+
     handlerLogin(userObject);
   };
+
+  useEffect(() => {
+    toast.error(errors);
+  }, [errors]);
 
   return (
     <>
@@ -44,7 +48,7 @@ function Login({ handlerLogin, isAuthenticated }) {
 }
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  errors: state.auth.errors,
 });
 
 export default connect(mapStateToProps, { handlerLogin })(Login);

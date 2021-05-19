@@ -1,9 +1,10 @@
-import { GET_WALL, UPDATE_WALL } from "../actions/types";
+import { GET_WALL, UPDATE_WALL, GET_MY_WALL } from "../actions/types";
 
 const initialState = {
   hot: [],
   cold: [],
   pool: [],
+  warm: [],
 };
 
 export default function (state = initialState, action) {
@@ -15,7 +16,9 @@ export default function (state = initialState, action) {
         hot: payload.hot,
         cold: payload.cold,
         pool: payload.pool,
+        warm: payload.warm,
       };
+
     case UPDATE_WALL:
       return state;
 

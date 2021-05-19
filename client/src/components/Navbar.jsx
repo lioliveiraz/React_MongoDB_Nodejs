@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { handlerLogOut } from "../store/actions/auth";
 import { connect } from "react-redux";
 
-function Navbar({ handlerLogOut, isAuthenticated }) {
+function Navbar({ handlerLogOut, isAuthenticated, poolNotification }) {
   return (
     <nav style={{ background: "green", padding: "5px" }}>
       <ul style={{ display: "flex" }}>
@@ -21,7 +21,7 @@ function Navbar({ handlerLogOut, isAuthenticated }) {
               <Link to="/my-profile">my profile</Link>
             </li>
             <li style={{ margin: "10px" }}>
-              <Link to="/my-profile/wall">my wall</Link>
+              <Link to="/my-profile/wall">my wall ({poolNotification})</Link>
             </li>
             <li style={{ margin: "10px" }} onClick={handlerLogOut}>
               logout
@@ -43,5 +43,6 @@ function Navbar({ handlerLogOut, isAuthenticated }) {
 }
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  poolNotification: state.wall.notification,
 });
 export default connect(mapStateToProps, { handlerLogOut })(Navbar);

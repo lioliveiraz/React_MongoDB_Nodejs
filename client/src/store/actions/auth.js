@@ -7,7 +7,7 @@ export const handlerLogin = (userObject) => async (dispatch) => {
 
     dispatch({ type: LOGIN_SUCCEED, payload: response.data.token });
   } catch (error) {
-    dispatch({ type: LOGIN_FAIL });
+    dispatch({ type: LOGIN_FAIL, payload: error.response.data.errors.msg });
   }
 };
 

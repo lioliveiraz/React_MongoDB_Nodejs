@@ -7,10 +7,10 @@ export const updateWallAPI = async (wallUpdatedData, token) => {
   return res;
 };
 
-export const updateVoteAPI = async (id, userVote, token) => {
+export const updateVoteAPI = async (id, column, token) => {
   const updated = {
     id,
-    userVote,
+    column,
   };
   const res = await http.put("/techs/vote", updated, {
     headers: { Authorization: "Bearer " + token },

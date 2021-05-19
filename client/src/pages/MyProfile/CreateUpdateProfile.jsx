@@ -8,14 +8,17 @@ function CreateUpdateProfile({ token, upDateProfile, setIsForm }) {
   const [profileObject, setObject] = useState({
     skills: ["Separate with comma to add to the list"],
   });
+  const [skill, setSkill] = useState("");
 
-  const addSkillToArray = (code, value) => {
+  const addSkillToArray = async (code, value) => {
     if (code === "Comma") {
-      let skillsArr = [];
-      skillsArr.push(value);
-      setObject({
-        skills: skillsArr,
+      let newValue = value.trim().substring(0, value.length - 1);
+
+      await setObject({
+        skills: [...profileObject.skills, newValue],
       });
+
+      setSkill("");
     }
   };
 
@@ -47,11 +50,14 @@ function CreateUpdateProfile({ token, upDateProfile, setIsForm }) {
       />
       <label htmlFor="skills">Skills</label>
       <input
+        value={skill}
         type="text"
-        onKeyDown={(e) => addSkillToArray(e.code, e.target.value)}
+        onChange={(e) => setSkill(e.target.value)}
+        onKeyUp={(e) => addSkillToArray(e.code, e.target.value)}
+        onFocus={() => setObject({ skills: [] })}
         placeholder="css,html,javascript"
       />
-      <p>{profileObject.skills && profileObject.skills}</p>
+      {profileObject.skills}
       <Input
         name="role"
         required={true}

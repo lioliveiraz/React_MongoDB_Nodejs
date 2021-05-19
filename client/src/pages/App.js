@@ -18,38 +18,39 @@ function App({ isAuthenticated }) {
   return (
     <div className="App">
       <Navbar />
-      <Switch>
-        {/*without*/}
+      <div style={{ overflow: "scroll" }}>
+        <Switch>
+          {/*without*/}
 
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route exact path="/developers">
-          <Developers />
-        </Route>
-        <Route path="/developers/:id">
-          <DeveloperProfile />
-        </Route>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route exact path="/developers">
+            <Developers />
+          </Route>
+          <Route path="/developers/:id">
+            <DeveloperProfile />
+          </Route>
 
-        <Route path="/login">
-          {isAuthenticated ? <Redirect to="/" /> : <Login />}
-        </Route>
-        <Route path="/signup">
-          {isAuthenticated ? <Redirect to="/" /> : <SignUp />}
-        </Route>
+          <Route path="/login">
+            {isAuthenticated ? <Redirect to="/" /> : <Login />}
+          </Route>
+          <Route path="/signup">
+            {isAuthenticated ? <Redirect to="/" /> : <SignUp />}
+          </Route>
 
-        {/*auth*/}
-        <Route exact path="/my-profile">
-          {!isAuthenticated ? <Redirect to="/" /> : <Profile />}
-        </Route>
-        <Route path="/my-profile/wall">
-          {!isAuthenticated ? <Redirect to="/" /> : <Wall />}
-        </Route>
-        <Route path="/my-profile/create-update">
-          {!isAuthenticated ? <Redirect to="/" /> : <CreateUpdateProfile />}
-        </Route>
-      </Switch>
-
+          {/*auth*/}
+          <Route exact path="/my-profile">
+            {!isAuthenticated ? <Redirect to="/" /> : <Profile />}
+          </Route>
+          <Route path="/my-profile/wall">
+            {!isAuthenticated ? <Redirect to="/" /> : <Wall />}
+          </Route>
+          <Route path="/my-profile/create-update">
+            {!isAuthenticated ? <Redirect to="/" /> : <CreateUpdateProfile />}
+          </Route>
+        </Switch>
+      </div>
       <Footer />
     </div>
   );

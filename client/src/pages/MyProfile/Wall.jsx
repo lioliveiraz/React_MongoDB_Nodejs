@@ -5,8 +5,8 @@ import {
   updateWall,
   updateVotes,
   buildPersonalWall,
-} from "./../../store/actions/wall";
-import { findColumn } from "../../helpers/services";
+} from "./../../store/actions/myWall";
+import { findColumn, getBgPerCategory } from "../../helpers/services";
 
 function Wall({ buildPersonalWall, wall, token, updateWall, updateVotes }) {
   const [columnsUpdated, updateColumns] = useState([]);
@@ -19,7 +19,7 @@ function Wall({ buildPersonalWall, wall, token, updateWall, updateVotes }) {
   }, []);
 
   useEffect(() => {
-    updateColumns(Object.entries(wall));
+    updateColumns(Object.entries(wall.techs));
   }, [wall]);
 
   const handleOnDropEnd = (result) => {
@@ -63,7 +63,7 @@ function Wall({ buildPersonalWall, wall, token, updateWall, updateVotes }) {
                   >
                     {columnName}
                     {techs &&
-                      techs.map(({ _id, name }, index) => (
+                      techs.map(({ _id, name, category }, index) => (
                         <Draggable key={_id} draggableId={_id} index={index}>
                           {(provided) => {
                             return (
@@ -75,7 +75,7 @@ function Wall({ buildPersonalWall, wall, token, updateWall, updateVotes }) {
                                 <p
                                   style={{
                                     padding: "5px",
-                                    background: "red",
+                                    background: getBgPerCategory(category),
                                     margin: "3px",
                                   }}
                                 >
@@ -101,7 +101,7 @@ function Wall({ buildPersonalWall, wall, token, updateWall, updateVotes }) {
 const MapStateToProps = (state) => {
   return {
     token: state.auth.token,
-    wall: state.wall,
+    wall: state.myWall,
   };
 };
 

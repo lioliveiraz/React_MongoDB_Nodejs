@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import ProfileCard from "./../../components/Base/ProfileCard";
 import { connect } from "react-redux";
 import { getProfilePerId } from "./../../store/actions/profile";
+import Spinner from "./../../components/Base/Spinner";
 
 function DeveloperProfile({ getProfilePerId, userProfile }) {
   const { id } = useParams();
@@ -15,7 +16,11 @@ function DeveloperProfile({ getProfilePerId, userProfile }) {
   }, []);
 
   if (!userProfile) {
-    return <div>Loading</div>;
+    return (
+      <div>
+        <Spinner />
+      </div>
+    );
   }
 
   return (
