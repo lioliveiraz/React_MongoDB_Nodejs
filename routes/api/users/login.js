@@ -12,7 +12,8 @@ router.post("/", async (req, res) => {
   const { email, password } = req.body;
   try {
     const userObject = await isAuthenticated(email, password);
-    if (!userObject) return res.status(404).json({ msg: "User not found" });
+    if (!userObject)
+      return res.status(400).json({ errors: { msg: "User not found" } });
 
     const { isPasswordCorrect, user } = userObject;
     const payload = { user: { id: user.id } };
@@ -21,7 +22,7 @@ router.post("/", async (req, res) => {
       const token = createToken(payload);
       res.status(200).json({ token });
     } else {
-      res.status(400).json({ msg: "Incorrect password" });
+      res.status(400).json({ errors: { msg: "Incorrect password" } });
     }
   } catch (error) {
     console.log(error);

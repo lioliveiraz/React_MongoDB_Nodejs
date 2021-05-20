@@ -7,8 +7,18 @@ import {
   buildPersonalWall,
 } from "./../../store/actions/myWall";
 import { findColumn, getBgPerCategory } from "../../helpers/services";
+import { buildCommonWall } from "../../store/actions/wall";
+import { buildSurvey } from "./../../store/actions/survey";
 
-function Wall({ buildPersonalWall, wall, token, updateWall, updateVotes }) {
+function Wall({
+  buildPersonalWall,
+  wall,
+  token,
+  updateWall,
+  updateVotes,
+  buildCommonWall,
+  buildSurvey,
+}) {
   const [columnsUpdated, updateColumns] = useState([]);
 
   useEffect(() => {
@@ -28,7 +38,7 @@ function Wall({ buildPersonalWall, wall, token, updateWall, updateVotes }) {
       const dropColumnName = result.destination.droppableId;
       const dragColumnName = result.source.droppableId;
 
-      if (dragColumnName !== dropColumnName && dropColumnName != "pool") {
+      if (dragColumnName === "pool" && dropColumnName != "pool") {
         const task = result.source.index;
         const draggableColumn = findColumn(columns, dragColumnName);
         const droppableColumn = findColumn(columns, dropColumnName);

@@ -1,7 +1,13 @@
 import { fetchMyProfile, fetchDeveloperProfile } from "../../api/requests/get";
-import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE } from "../actions/types";
+import {
+  GET_PROFILE,
+  PROFILE_ERROR,
+  UPDATE_PROFILE,
+  GET_ALL_PROFILES,
+} from "../actions/types";
 import { registerProfile } from "./../../api/requests/post";
 import { UPDATE_PROFILE_FAIL } from "./types";
+import { fetchDevelopers } from "./../../api/requests/get";
 
 export const getCurrentProfile = (token) => async (dispatch) => {
   try {
@@ -31,4 +37,11 @@ export const upDateProfile = (profileObject, token) => async (dispatch) => {
       payload: { error: "Something went wrong" },
     });
   }
+};
+
+export const getAllProfiles = () => async (dispatch) => {
+  try {
+    const res = await fetchDevelopers();
+    dispatch({ type: GET_ALL_PROFILES, payload: res });
+  } catch (error) {}
 };

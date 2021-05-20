@@ -4,8 +4,9 @@ import { buildCommonWall } from "../store/actions/wall";
 import Wall from "../components/Wall/Wall";
 import Header from "./../components/Header/Header";
 import { buildSurvey } from "./../store/actions/survey";
-import BarChart from "../components/RacingBar/BarChart";
+import BarChart from "../components/Charts/RacingBar/BarChart";
 import { categoryName } from "../helpers/globalVar";
+import GaugeChart from "../components/Charts/GaugeChart/GaugeChart";
 
 function Home({
   buildCommonWall,
@@ -23,6 +24,8 @@ function Home({
   },
 }) {
   const [chartCategory, setChartCategory] = useState();
+  const [selectedTech, setSelectedTech] = useState();
+
   const { LIBRARY, FRAMEWORK, DATABASE, COLLABORATION, TESTING, LANGUAGE } =
     categoryName;
   useEffect(() => {
@@ -31,7 +34,7 @@ function Home({
 
   useEffect(() => {
     buildSurvey();
-  }, []);
+  }, [wall]);
 
   const getCategoryArr = (cat) => {
     switch (cat) {
@@ -55,15 +58,28 @@ function Home({
     <div style={{ height: "100vh" }}>
       <Header />
       <Wall wall={wall} />
-
       {categories.map((category) => (
-        <button key={category} onClick={() => setChartCategory(category)}>
+        <button
+          key={category}
+          onClick={() => {
+            setChartCategory(category);
+            setSelectedTech();
+          }}
+        >
           {category}
         </button>
       ))}
-
       <BarChart techs={techs} name="General Technologies" />
       <BarChart techs={getCategoryArr(chartCategory)} name={chartCategory} />
+
+      <ul>
+        {getCategoryArr(chartCategory).map((value) => (
+          <li key={value._id} onClick={() => setSelectedTech(value)}>
+            {value.name}
+          </li>
+        ))}
+      </ul>
+      {selectedTech ? <GaugeChart tech={selectedTech} /> : null}
     </div>
   );
 }

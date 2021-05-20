@@ -7,8 +7,7 @@ module.exports = {
     profileFields.social = {};
     profileFields.user = USER_ID;
     if (bio) profileFields.bio = bio;
-    if (skills)
-      profileFields.skills = skills[0].split(",").map((skill) => skill.trim());
+    if (skills) profileFields.skills = skills;
     if (role) profileFields.role = role;
     if (githubusername) profileFields.githubusername = githubusername;
     if (youtube)

@@ -23,3 +23,7 @@ export const getBgPerCategory = (category) => {
       return "magenta";
   }
 };
+
+export default function calculatePercentage(total, value) {
+  return Math.round((value / total) * 100);
+}

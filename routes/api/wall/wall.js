@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../../middleware/auth");
 const Wall = require("../../../models/Walls");
-
+const Technologies = require("../../../models/Technologies");
 /**
  * @route GET api/wall/me
  * @description get the data for the user wall

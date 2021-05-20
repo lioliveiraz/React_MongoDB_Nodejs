@@ -11,8 +11,14 @@ const TechnologiesSchema = new mongoose.Schema({
   image: {
     type: String,
   },
-  votes: {
+  like: {
     type: Number,
+  },
+  unlike: {
+    type: Number,
+  },
+  category: {
+    type: String,
   },
   creator: {
     type: String,
