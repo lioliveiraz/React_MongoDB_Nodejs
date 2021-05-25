@@ -4,6 +4,7 @@ export const useStyles = makeStyles((theme) => ({
   root: {
     background: "#1A535C",
     color: "white",
+    padding: "0.7rem",
   },
   subnav: {},
   links: { color: "white" },
