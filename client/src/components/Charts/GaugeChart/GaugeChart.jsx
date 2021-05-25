@@ -4,7 +4,7 @@ import { getAllProfiles } from "../../../store/actions/profile";
 import calculatePercentage from "../../../helpers/services";
 import useResizeObserver from "../../../helpers/useReciseObserver";
 import { select } from "d3";
-import { createGaugeChart, createLabel } from "./../helpers/createElements";
+import { createGaugeChart } from "../helpers/gaugeChartElements";
 
 function GaugeChart({ developers, getAllProfiles, tech }) {
   const [likePercentage, setLikePercentage] = useState(0);

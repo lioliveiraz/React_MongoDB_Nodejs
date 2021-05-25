@@ -1,44 +1,67 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import { handlerLogOut } from "../store/actions/auth";
 import { connect } from "react-redux";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Link from "@material-ui/core/Link";
+import Typography from "@material-ui/core/Typography";
+import { navigationLinks } from "../helpers/globalVar";
+import BaseButton from "./Base/BaseButton";
+import { useStyles } from "./../assets/css/Navigation/navigation";
+import { useHistory } from "react-router-dom";
+
+import SvgIcon from "@material-ui/icons/MoreVert";
+import HomeIcon from "@material-ui/icons/Home";
 
 function Navbar({ handlerLogOut, isAuthenticated, poolNotification }) {
-  return (
-    <nav style={{ background: "green", padding: "5px" }}>
-      <ul style={{ display: "flex" }}>
-        <li style={{ margin: "10px" }}>
-          <Link to="/">Home</Link>
-        </li>
-        <li style={{ margin: "10px" }}>
-          {" "}
-          <Link to="/developers">Developers</Link>
-        </li>
+  const { DEVELOPERS_PROFILES, MY_PROFILE, MY_WALL, SING_IN, SING_UP, LOGOUT } =
+    navigationLinks;
 
-        {isAuthenticated ? (
-          <>
-            <li style={{ margin: "10px" }}>
-              <Link to="/my-profile">my profile</Link>
-            </li>
-            <li style={{ margin: "10px" }}>
-              <Link to="/my-profile/wall">my wall ({poolNotification})</Link>
-            </li>
-            <li style={{ margin: "10px" }} onClick={handlerLogOut}>
-              logout
-            </li>
-          </>
-        ) : (
-          <>
-            <li style={{ margin: "10px" }}>
-              <Link to="/signup">sign up</Link>
-            </li>
-            <li style={{ margin: "10px" }}>
-              <Link to="/login">login</Link>
-            </li>
-          </>
-        )}
-      </ul>
-    </nav>
+  const classes = useStyles();
+  const history = useHistory();
+
+  return (
+    <Breadcrumbs className={classes.root}>
+      <Link className={classes.links} color="inherit" href="/">
+        <HomeIcon color="secondary" />
+      </Link>
+      <Link className={classes.links} color="inherit" href="/developers">
+        <Typography color="textPrimary">{DEVELOPERS_PROFILES}</Typography>
+      </Link>
+      {isAuthenticated ? (
+        <Breadcrumbs className={classes.subnav}>
+          <Link className={classes.links} color="inherit" href="/my-profile">
+            <Typography color="textPrimary">{MY_PROFILE}</Typography>
+          </Link>
+
+          <Link
+            className={classes.links}
+            color="inherit"
+            href="/my-profile/wall"
+          >
+            {MY_WALL}({poolNotification})
+          </Link>
+
+          <BaseButton
+            color="secondary"
+            value={LOGOUT}
+            handleClick={handlerLogOut}
+            className={classes.button}
+          />
+        </Breadcrumbs>
+      ) : (
+        <Breadcrumbs className={classes.subnav}>
+          <Link className={classes.links} color="inherit" href="/signup">
+            {SING_UP}
+          </Link>
+          <BaseButton
+            value={SING_IN}
+            color="secondary"
+            handleClick={() => history.push("/login")}
+            className={classes.button}
+          />
+        </Breadcrumbs>
+      )}{" "}
+    </Breadcrumbs>
   );
 }
 const mapStateToProps = (state) => ({

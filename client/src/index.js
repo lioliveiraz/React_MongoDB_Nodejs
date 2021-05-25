@@ -4,27 +4,31 @@ import App from "./pages/App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import theme from "./ThemeProvider";
+import "react-toastify/dist/ReactToastify.css";
+import { ThemeProvider } from "@material-ui/styles";
 
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
-      <BrowserRouter>
-        <ToastContainer
-          position="bottom-right"
-          autoClose={4000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-        <App />
-      </BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={4000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
     </React.StrictMode>
   </Provider>,
   document.getElementById("root")

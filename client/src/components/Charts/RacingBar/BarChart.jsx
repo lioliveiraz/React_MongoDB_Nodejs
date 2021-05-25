@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { select, scaleBand, scaleLinear, max } from "d3";
 import useResizeObserver from "../../../helpers/useReciseObserver";
-import { createBar, createLabel } from "../helpers/createElements";
+import { createBar, createLabel } from "../helpers/barChartElements";
 
 function BarChart({ techs, name }) {
   const svgRef = useRef();

@@ -27,3 +27,7 @@ export const getBgPerCategory = (category) => {
 export default function calculatePercentage(total, value) {
   return Math.round((value / total) * 100);
 }
+
+export const capitalize = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
