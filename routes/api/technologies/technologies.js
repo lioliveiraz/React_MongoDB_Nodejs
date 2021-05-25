@@ -9,7 +9,6 @@ const {
   findTechnology,
   createNewTech,
 } = require("./helpers");
-
 /**
  * @route GET api/techs
  * @description Get all the technologies
@@ -35,12 +34,11 @@ router.get("/", async (req, res) => {
  */
 
 router.put("/vote", auth, async (req, res) => {
-  const { id, userVote } = req.body;
-
+  const { id, column } = req.body;
   try {
-    const votes = await findTechAndReturnTotalVotes(id);
-    const updatedVote = votes + userVote;
-    await handleUpdateVotes(id, updatedVote);
+    const votes = await findTechAndReturnTotalVotes(id, column);
+    const updatedVote = votes + 1;
+    await handleUpdateVotes(id, updatedVote, column);
     res.status(200).end();
   } catch (err) {
     console.error(err);
@@ -60,6 +58,7 @@ router.post(
   "/",
   [
     check("name", "Name is required").notEmpty(),
+    check("category", "Category is required").notEmpty(),
     check("description", "Description is required").notEmpty(),
   ],
   async (req, res) => {

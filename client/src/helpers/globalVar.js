@@ -6,3 +6,12 @@ export const categoryName = {
   TESTING: "testing library",
   LANGUAGE: "language",
 };
+
+export const navigationLinks = {
+  DEVELOPERS_PROFILES: "developers",
+  MY_PROFILE: "my profile",
+  MY_WALL: "my wall",
+  LOGOUT: "logout",
+  SING_IN: "login",
+  SING_UP: "sign up",
+};

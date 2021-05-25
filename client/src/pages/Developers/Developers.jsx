@@ -1,20 +1,23 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { fetchDevelopers } from "../../api/requests/get";
 import Cards from "./../../components/Developers/Cards";
 import { connect } from "react-redux";
+import { getAllProfiles } from "../../store/actions/profile";
 
-function Developers({ user_id }) {
+function Developers({ user_id, profiles, getAllProfiles }) {
   const [developers, setDevelopers] = useState();
 
   useEffect(() => {
     async function getDevs() {
-      const res = await fetchDevelopers();
-      const developers = res.filter((user) => user._id != user_id);
-      setDevelopers(developers);
+      getAllProfiles();
     }
     getDevs();
   }, []);
+
+  useEffect(() => {
+    const developers = profiles.filter((user) => user._id != user_id);
+    setDevelopers(developers);
+  }, [profiles]);
 
   return (
     <>
@@ -32,7 +35,8 @@ function Developers({ user_id }) {
 export const MapStateToProps = (state) => {
   return {
     user_id: state.auth.user,
+    profiles: state.profile.profiles,
   };
 };
 
-export default connect(MapStateToProps, {})(Developers);
+export default connect(MapStateToProps, { getAllProfiles })(Developers);

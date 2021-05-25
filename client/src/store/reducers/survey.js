@@ -1,4 +1,4 @@
-import { GET_CATEGORIES, GET_SURVEY } from "../../store/actions/types";
+import { GET_UPDATED_BOOL, GET_SURVEY } from "../../store/actions/types";
 
 const initialState = {
   techs: [],
@@ -26,6 +26,7 @@ export default function (state = initialState, action) {
         collaboration: payload.collaboration,
         languages: payload.languages,
       };
+
     default:
       return state;
   }

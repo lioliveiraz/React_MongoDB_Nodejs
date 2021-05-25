@@ -1,12 +1,16 @@
 import React from "react";
+import TextField from "@material-ui/core/TextField";
+import { capitalize } from "../../helpers/services";
 
 function Input(props) {
   const { type, name, label, placeholder, required, getUserInput } = props;
+
   return (
     <>
-      <label htmlFor={name}> {label ? label : name} </label>
-
-      <input
+      <TextField
+        id="standard-secondary"
+        label={label ? capitalize(label) : capitalize(name)}
+        color="secondary"
         type={type}
         name={name}
         placeholder={placeholder}

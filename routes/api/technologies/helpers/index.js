@@ -1,14 +1,15 @@
 const Technologies = require("../../../../models/Technologies");
 
 module.exports = {
-  findTechAndReturnTotalVotes: async (id) => {
+  findTechAndReturnTotalVotes: async (id, column) => {
     const tech = await Technologies.findById({ _id: id });
-    return tech.votes;
+    return tech[column];
   },
 
-  handleUpdateVotes: async (id, updatedVote) => {
+  handleUpdateVotes: async (id, updatedVote, column) => {
     const filter = { _id: id };
-    const update = { votes: updatedVote };
+    const update = { [column]: updatedVote };
+
     await Technologies.findOneAndUpdate(filter, update, {
       new: true,
     });
@@ -20,17 +21,20 @@ module.exports = {
   },
 
   createNewTech: async (techData) => {
-    const { name, description, creator, image } = techData;
+    const { name, description, creator, image, category } = techData;
     const date = new Date();
-    const votes = 0;
+    const like = 0;
+    const unlike = 0;
 
     let technology = new Technologies({
       name,
       description,
       creator,
-      votes,
+      like,
+      unlike,
       image,
       date,
+      category,
     });
 
     image

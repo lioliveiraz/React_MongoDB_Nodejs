@@ -1,4 +1,4 @@
-import { UPDATE_WALL, GET_MY_WALL } from "./types";
+import { UPDATE_WALL, GET_MY_WALL, GET_UPDATED_BOOL } from "./types";
 import { fetchMyWall } from "../../api/requests/get";
 import { updateWallAPI, updateVoteAPI } from "../../api/requests/put";
 import { buildSurvey } from "./survey";

@@ -1,6 +1,9 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+
 import "../assets/css/App.css";
+import "../assets/css/forms.css";
 
 import Profile from "./MyProfile/Profile.jsx";
 import CreateUpdateProfile from "./MyProfile/CreateUpdateProfile.jsx";
@@ -12,13 +15,19 @@ import Navbar from "./../components/Navbar";
 import Home from "./Home.jsx";
 import Developers from "./Developers/Developers.jsx";
 import Footer from "./../components/Footer";
-import { connect } from "react-redux";
+import { Grid } from "@material-ui/core";
+import { useStyles } from "./../assets/css/App/app";
 
 function App({ isAuthenticated }) {
+  const classes = useStyles();
+
   return (
-    <div className="App">
-      <Navbar />
-      <div style={{ overflow: "scroll" }}>
+    <Grid container className={classes.root}>
+      <Grid item sm={12} className={classes.nav}>
+        <Navbar />
+      </Grid>
+
+      <Grid item sm={12} className={classes.main}>
         <Switch>
           {/*without*/}
 
@@ -50,9 +59,11 @@ function App({ isAuthenticated }) {
             {!isAuthenticated ? <Redirect to="/" /> : <CreateUpdateProfile />}
           </Route>
         </Switch>
-      </div>
-      <Footer />
-    </div>
+      </Grid>
+      <Grid item sm={12} className={classes.footer}>
+        <Footer />
+      </Grid>
+    </Grid>
   );
 }
 
