@@ -23,11 +23,11 @@ function App({ isAuthenticated }) {
 
   return (
     <Grid container className={classes.root}>
-      <Grid item sm={12} className={classes.nav}>
+      <Grid item xs={12} className={classes.nav}>
         <Navbar />
       </Grid>
 
-      <Grid item sm={12} className={classes.main}>
+      <Grid item xs={12} className={classes.main}>
         <Switch>
           {/*without*/}
 
@@ -59,9 +59,6 @@ function App({ isAuthenticated }) {
             {!isAuthenticated ? <Redirect to="/" /> : <CreateUpdateProfile />}
           </Route>
         </Switch>
-      </Grid>
-      <Grid item sm={12} className={classes.footer}>
-        <Footer />
       </Grid>
     </Grid>
   );

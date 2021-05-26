@@ -9,6 +9,13 @@ let theme = createMuiTheme({
       main: "#FEBA33",
     },
   },
+  typography: {
+    fontSize: 15,
+
+    body1: {
+      fontSize: 11,
+    },
+  },
 });
 
 theme = responsiveFontSizes(theme);

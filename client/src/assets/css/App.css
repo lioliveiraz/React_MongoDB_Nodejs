@@ -5,6 +5,9 @@
   text-decoration: none;
 }
 
-svg {
-  width: 100%;
+::-webkit-scrollbar {
+  display: none;
+}
+::-webkit-scrollbar-button {
+  display: none;
 }

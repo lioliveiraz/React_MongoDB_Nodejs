@@ -10,21 +10,21 @@ export const findColumn = (columns, columnName) => {
 export const getBgPerCategory = (category) => {
   switch (category) {
     case FRAMEWORK:
-      return "teal";
+      return "#6D7345";
     case LIBRARY:
-      return "gray";
+      return "#D4C1D9";
     case LANGUAGE:
-      return "blue";
+      return "#D98673";
     case DATABASE:
-      return "yellow";
+      return "#A64E46";
     case COLLABORATION:
-      return "red";
+      return "#79AEF2";
     case TESTING:
-      return "magenta";
+      return "teal";
   }
 };
 
-export default function calculatePercentage(total, value) {
+export function calculatePercentage(total, value) {
   return Math.round((value / total) * 100);
 }
 

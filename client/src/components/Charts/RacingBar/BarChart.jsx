@@ -2,11 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { select, scaleBand, scaleLinear, max } from "d3";
 import useResizeObserver from "../../../helpers/useReciseObserver";
 import { createBar, createLabel } from "../helpers/barChartElements";
+import Typography from "@material-ui/core/Typography";
+import { useStyles } from "./../../../assets/css/charts/barChart";
+import { Grid } from "@material-ui/core";
 
 function BarChart({ techs, name }) {
   const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
+  const classes = useStyles();
 
   useEffect(() => {
     const svg = select(svgRef.current);
@@ -16,7 +20,7 @@ function BarChart({ techs, name }) {
     const yScale = scaleBand()
       .padding(0.1)
       .domain(techs.map((value, index) => index))
-      .range([0, dimensions.height]);
+      .range([0, dimensions.height + 5]);
 
     const xScale = scaleLinear()
       .domain([0, max(techs, (entry) => entry.like)])
@@ -27,15 +31,19 @@ function BarChart({ techs, name }) {
   }, [techs, dimensions]);
 
   return (
-    <div>
-      <h1>{name}</h1>
+    <Grid container className={classes.root}>
+      <Grid item>
+        <Typography variant="h3" color="secondary" className={classes.title}>
+          {name}
+        </Typography>
+      </Grid>
 
-      <div ref={wrapperRef} style={{ height: "30vh" }}>
-        <svg ref={svgRef} style={{ height: "100%" }}>
+      <Grid item ref={wrapperRef} className={classes.svgWrapper}>
+        <svg ref={svgRef} className={classes.svg}>
           {" "}
         </svg>
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 }
 

@@ -8,7 +8,7 @@ export const buildSurvey = () => async (dispatch) => {
     res = res.techs;
     let categories = [];
     res.forEach((element) => {
-      categories.push(element.category);
+      categories.push(element.category.toLowerCase());
     });
     const techs = res;
 

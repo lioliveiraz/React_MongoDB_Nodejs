@@ -9,6 +9,11 @@ import {
 import { findColumn, getBgPerCategory } from "../../helpers/services";
 import { buildCommonWall } from "../../store/actions/wall";
 import { buildSurvey } from "./../../store/actions/survey";
+import Paper from "@material-ui/core/Paper";
+import { useStylesMyWall } from "./../../assets/css/MyWall/myWall";
+import { Grid } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+import { useStyles } from "./../../assets/css/Board/Board";
 
 function Wall({
   buildPersonalWall,
@@ -20,6 +25,21 @@ function Wall({
   buildSurvey,
 }) {
   const [columnsUpdated, updateColumns] = useState([]);
+  const classes = useStylesMyWall();
+  const wallClasses = useStyles();
+
+  const chooseClass = (columnName) => {
+    switch (columnName) {
+      case "cold":
+        return wallClasses.rootCold;
+      case "hot":
+        return wallClasses.rootHot;
+      case "warm":
+        return wallClasses.rootWarm;
+      default:
+        return wallClasses.rootPool;
+    }
+  };
 
   useEffect(() => {
     async function getWall() {
@@ -54,43 +74,36 @@ function Wall({
   };
 
   return (
-    <div>
-      <DragDropContext onDragEnd={handleOnDropEnd}>
-        <div style={{ display: "flex", height: "100vh" }}>
+    <Grid container className={classes.root}>
+      <Paper elevation={3} className={classes.paper}>
+        <DragDropContext onDragEnd={handleOnDropEnd}>
           {columnsUpdated.map(([columnName, techs]) => {
             return (
               <Droppable droppableId={columnName} key={columnName}>
                 {(provided) => (
                   <ul
-                    style={{
-                      background: "purple",
-                      margin: "2px",
-                      width: "50%",
-                    }}
-                    className="list"
+                    className={classes.columns + " " + chooseClass(columnName)}
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
-                    {columnName}
+                    <Typography variant="h3" className={classes.columnsName}>
+                      {columnName}
+                    </Typography>
                     {techs &&
                       techs.map(({ _id, name, category }, index) => (
                         <Draggable key={_id} draggableId={_id} index={index}>
                           {(provided) => {
                             return (
                               <li
+                                className={classes.list}
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
+                                style={{
+                                  background: getBgPerCategory(category),
+                                }}
                               >
-                                <p
-                                  style={{
-                                    padding: "5px",
-                                    background: getBgPerCategory(category),
-                                    margin: "3px",
-                                  }}
-                                >
-                                  {name}
-                                </p>
+                                <Typography variant="body1">{name}</Typography>
                               </li>
                             );
                           }}
@@ -102,9 +115,9 @@ function Wall({
               </Droppable>
             );
           })}
-        </div>
-      </DragDropContext>
-    </div>
+        </DragDropContext>
+      </Paper>
+    </Grid>
   );
 }
 

@@ -34,7 +34,7 @@ module.exports = {
       unlike,
       image,
       date,
-      category,
+      category: category.toLowerCase(),
     });
 
     image

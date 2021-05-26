@@ -1,19 +1,39 @@
 import React from "react";
 import Board from "./Board";
+import { Grid } from "@material-ui/core";
+import { useStyles } from "./../../assets/css/Wall/wall";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
 
 function Wall({ wall }) {
+  const classes = useStyles();
   const { hot, cold, pool, warm } = wall;
+
   return (
-    <div>
-      <div style={{ display: "flex" }}>
-        <Board techArray={cold} name="cold" />
-        <Board techArray={warm} name="warm" />
-        <Board techArray={hot} name="hot" />
-      </div>
-      <div style={{ background: "purple", marginTop: "2%" }}>
+    <Grid
+      container
+      spacing={3}
+      justify="center"
+      className={classes.root}
+      direction="column"
+    >
+      <Paper className={classes.wall} elevation={3}>
+        <Grid item className={classes.column}>
+          <Board techArray={cold} name="cold" />
+        </Grid>
+
+        <Grid item className={classes.column}>
+          <Board techArray={warm} name="warm" />
+        </Grid>
+
+        <Grid item className={classes.column}>
+          <Board techArray={hot} name="hot" />
+        </Grid>
+      </Paper>
+      <Grid item className={classes.pool}>
         <Board techArray={pool} name="pool" />
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 }
 
