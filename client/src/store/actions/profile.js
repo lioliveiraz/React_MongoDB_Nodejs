@@ -27,17 +27,19 @@ export const getProfilePerId = (id) => async (dispatch) => {
   }
 };
 
-export const upDateProfile = (profileObject, token) => async (dispatch) => {
-  try {
-    const res = await registerProfile(profileObject, token);
-    dispatch({ type: UPDATE_PROFILE, payload: res.data });
-  } catch (error) {
-    dispatch({
-      type: UPDATE_PROFILE_FAIL,
-      payload: { error: "Something went wrong" },
-    });
-  }
-};
+export const upDateProfile =
+  (profileObject, token, history) => async (dispatch) => {
+    try {
+      const res = await registerProfile(profileObject, token);
+      dispatch({ type: UPDATE_PROFILE, payload: res.data });
+      history.push("/my-profile");
+    } catch (error) {
+      dispatch({
+        type: UPDATE_PROFILE_FAIL,
+        payload: { error: "Something went wrong" },
+      });
+    }
+  };
 
 export const getAllProfiles = () => async (dispatch) => {
   try {

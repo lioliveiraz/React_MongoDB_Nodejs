@@ -58,7 +58,7 @@ function Developers({ user_id, profiles, getAllProfiles }) {
     </GridList>
   );
 }
-export const MapStateToProps = (state) => {
+const MapStateToProps = (state) => {
   return {
     user_id: state.auth.user,
     profiles: state.profile.profiles,

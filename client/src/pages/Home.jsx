@@ -97,8 +97,8 @@ function Home({
             </Grid>
           )}
         </Grid>
-
-        {/* <ul>
+        {/* 
+        <ul>
           {getCategoryArr(chartCategory).map((value) => (
             <li key={value._id} onClick={() => setSelectedTech(value)}>
               {value.name}

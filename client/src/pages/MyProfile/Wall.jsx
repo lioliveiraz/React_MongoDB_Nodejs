@@ -53,6 +53,7 @@ function Wall({
   }, [wall]);
 
   const handleOnDropEnd = (result) => {
+    console.log(result);
     if (result.destination) {
       const columns = Array.from(columnsUpdated);
       const dropColumnName = result.destination.droppableId;
@@ -75,8 +76,8 @@ function Wall({
 
   return (
     <Grid container className={classes.root}>
-      <Paper elevation={3} className={classes.paper}>
-        <DragDropContext onDragEnd={handleOnDropEnd}>
+      <DragDropContext onDragEnd={handleOnDropEnd}>
+        <Paper elevation={3} className={classes.paper}>
           {columnsUpdated.map(([columnName, techs]) => {
             return (
               <Droppable droppableId={columnName} key={columnName}>
@@ -86,24 +87,26 @@ function Wall({
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
-                    <Typography variant="h3" className={classes.columnsName}>
-                      {columnName}
-                    </Typography>
+                    {columnName}
                     {techs &&
                       techs.map(({ _id, name, category }, index) => (
                         <Draggable key={_id} draggableId={_id} index={index}>
-                          {(provided) => {
+                          {(provided, snapshot) => {
                             return (
                               <li
                                 className={classes.list}
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
-                                style={{
-                                  background: getBgPerCategory(category),
-                                }}
                               >
-                                <Typography variant="body1">{name}</Typography>
+                                <Typography
+                                  variant="body1"
+                                  style={{
+                                    background: getBgPerCategory(category),
+                                  }}
+                                >
+                                  {name}
+                                </Typography>
                               </li>
                             );
                           }}
@@ -115,8 +118,8 @@ function Wall({
               </Droppable>
             );
           })}
-        </DragDropContext>
-      </Paper>
+        </Paper>
+      </DragDropContext>
     </Grid>
   );
 }

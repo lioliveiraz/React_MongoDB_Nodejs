@@ -14,4 +14,5 @@ export const navigationLinks = {
   LOGOUT: "logout",
   SING_IN: "login",
   SING_UP: "sign up",
+  EDIT_PROFILE: "Edit profile",
 };

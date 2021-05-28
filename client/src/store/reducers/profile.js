@@ -10,20 +10,25 @@ const initialState = {
   profile: null,
   profiles: [],
   loading: true,
-  errors: null,
+  status: null,
 };
 
 export default function (state = initialState, action) {
   const { payload, type } = action;
   switch (type) {
     case GET_PROFILE:
-      return { ...state, profile: payload, loading: false, errors: null };
+      return { ...state, profile: payload, loading: false, status: null };
     case PROFILE_ERROR:
-      return { ...state, profile: null, errors: payload, loading: true };
+      return { ...state, profile: null, status: payload, loading: true };
     case UPDATE_PROFILE:
-      return { ...state, profile: payload, errors: null, loading: false };
+      return { ...state, profile: payload, status: null, loading: false };
     case UPDATE_PROFILE_FAIL:
-      return { ...state, errors: payload, loading: true };
+      return {
+        ...state,
+        status: "Your profile was updated",
+        profile: payload,
+        loading: true,
+      };
     case GET_ALL_PROFILES:
       return { ...state, profiles: payload };
     default:

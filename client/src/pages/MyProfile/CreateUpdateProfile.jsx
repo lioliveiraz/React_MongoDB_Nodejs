@@ -3,24 +3,17 @@ import Input from "./../../components/Base/Input";
 import { upDateProfile } from "./../../store/actions/profile";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+import profile from "../../store/reducers/profile";
 
-function CreateUpdateProfile({ token, upDateProfile, setIsForm }) {
+function CreateUpdateProfile({ token, upDateProfile }) {
+  const history = useHistory();
   const [profileObject, setObject] = useState({
-    skills: ["Separate with comma to add to the list"],
+    skills: [],
   });
   const [skill, setSkill] = useState("");
 
-  const addSkillToArray = async (code, value) => {
-    if (code === "Comma") {
-      let newValue = value.trim().substring(0, value.length - 1);
-
-      await setObject({
-        skills: [...profileObject.skills, newValue],
-      });
-
-      setSkill("");
-    }
-  };
+  const [toggleSocialMedia, setToggleSocialMedia] = useState(false);
 
   const handleUserInput = (value, name) => {
     setObject({
@@ -29,11 +22,30 @@ function CreateUpdateProfile({ token, upDateProfile, setIsForm }) {
     });
   };
 
+  const addSkillToArray = async (code, value) => {
+    if (code === "Comma") {
+      let newValue = value.trim().substring(0, value.length - 1);
+
+      await handleUserInput([...profileObject.skills, newValue], "skills");
+
+      setSkill("");
+    }
+  };
+
+  /*   const addSocialMedia = async (value, name) => {
+    await handleUserInput(
+      {
+        ...profileObject.social,
+        [name]: value,
+      },
+      "social"
+    );
+  }; */
+
   const submit = async (e) => {
     e.preventDefault();
     try {
-      await upDateProfile(profileObject, token);
-      setIsForm(false);
+      await upDateProfile(profileObject, token, history);
     } catch (error) {
       toast.error(error.response.data.errors);
     }
@@ -41,63 +53,103 @@ function CreateUpdateProfile({ token, upDateProfile, setIsForm }) {
 
   return (
     <form>
-      <label htmlFor="bio"> Bio</label>
       <textarea
         name="bio"
         cols="30"
         rows="10"
         onChange={(e) => handleUserInput(e.target.value, e.target.name)}
+        placeholder="Bio"
       />
-      <label htmlFor="skills">Skills</label>
       <input
         value={skill}
         type="text"
         onChange={(e) => setSkill(e.target.value)}
         onKeyUp={(e) => addSkillToArray(e.code, e.target.value)}
-        onFocus={() => setObject({ skills: [] })}
         placeholder="css,html,javascript"
       />
-      {profileObject.skills}
-      <Input
+
+      {profileObject.skills
+        ? profileObject.skills.join()
+        : "Separate with comma to add to the list"}
+      <select
         name="role"
-        required={true}
-        type="text"
-        getUserInput={handleUserInput}
-        placeholder="Developer"
-      />
-      <Input
-        name="githubusername"
-        label="Git Hub"
-        required={true}
-        type="text"
-        getUserInput={handleUserInput}
-        placeholder="myUserName"
-      />
-      <Input
-        name="youtube"
-        required={true}
-        type="text"
-        placeholder="myUsername"
-        getUserInput={handleUserInput}
-      />
-      <Input
-        name="twitter"
-        required={true}
-        type="text"
-        placeholder="myUsername"
-        getUserInput={handleUserInput}
-      />
-      <Input
-        name="linkedin"
-        required={true}
-        type="text"
-        placeholder="myUsername"
-        getUserInput={handleUserInput}
-      />
+        onChange={(e) => handleUserInput(e.target.value, "role")}
+      >
+        <option value="">Select Your role</option>
+        {roles.map((role) => (
+          <option key={role} value={role}>
+            {role}
+          </option>
+        ))}
+      </select>
+
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          setToggleSocialMedia(!toggleSocialMedia);
+        }}
+      >
+        Add social media
+      </button>
+
+      {toggleSocialMedia ? (
+        <>
+          <Input
+            name="githubusername"
+            label="Git Hub"
+            required={false}
+            type="text"
+            getUserInput={handleUserInput}
+            placeholder="GitHub username"
+          />
+          <Input
+            name="youtube"
+            required={false}
+            type="text"
+            placeholder="Youtube username"
+            getUserInput={handleUserInput}
+          />
+          <Input
+            name="twitter"
+            required={false}
+            type="text"
+            placeholder="Twitter username"
+            getUserInput={handleUserInput}
+          />
+          <Input
+            name="linkedin"
+            required={false}
+            type="text"
+            placeholder="Llinkedin username"
+            getUserInput={handleUserInput}
+          />
+        </>
+      ) : null}
+
       <button onClick={submit}> Send</button>
-      <button onClick={() => setIsForm(false)}> close</button>
     </form>
   );
 }
 
-export default connect(null, { upDateProfile })(CreateUpdateProfile);
+const mapStateToProps = (state) => {
+  return {
+    token: state.auth.token,
+  };
+};
+
+export default connect(mapStateToProps, { upDateProfile })(CreateUpdateProfile);
+
+const roles = [
+  "Junior FrontEnd Developer",
+  "Senior FrontEnd Developer",
+  "Middle FrontEnd Developer",
+  "Junior Backend Developer",
+  "Senior Backend Developer",
+  "Middle Backend Developer",
+  "Junior Designer",
+  "Senior Designer",
+  "Middle Designer",
+  "Junior Project Manager",
+  "Senior Project Manager",
+  "Middle Project Manager",
+];
