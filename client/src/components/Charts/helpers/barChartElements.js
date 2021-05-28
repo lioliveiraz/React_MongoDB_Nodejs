@@ -32,9 +32,9 @@ export const createLabel = (svg, techs, yScale) => {
     .text((entry) => `${entry.name}  (${entry.like})`)
     .attr("class", "label")
     .attr("x", 10)
-    .style("fill", "smokeWhite")
+    .style("fill", "black")
     .transition()
-    .attr("y", (entry, index) => yScale(index) + yScale.bandwidth() - 8);
+    .attr("y", (entry, index) => yScale(index) + yScale.bandwidth() - 5);
 
   return label;
 };

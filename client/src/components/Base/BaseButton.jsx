@@ -1,11 +1,10 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 
-function BaseButton({ value, handleClick, color }) {
+function BaseButton({ value, handleClick, color, variant }) {
   return (
-    <Button variant="contained" color={color} onClick={handleClick}>
-      <Typography color="textPrimary">{value}</Typography>
+    <Button color={color} onClick={handleClick} variant={variant}>
+      {value}
     </Button>
   );
 }

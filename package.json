@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/lioliveiraz/React_MongoDB_Nodejs#readme",
   "dependencies": {
+    "@fontsource/roboto": "^4.3.0",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.6",
     "cors": "^2.8.5",

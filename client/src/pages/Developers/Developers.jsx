@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import Cards from "./../../components/Developers/Cards";
 import { connect } from "react-redux";
 import { getAllProfiles } from "../../store/actions/profile";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
+import GridListTileBar from "@material-ui/core/GridListTileBar";
+import IconButton from "@material-ui/core/IconButton";
+import InfoIcon from "@material-ui/icons/Info";
+import { useHistory } from "react-router-dom";
+import { useStyles } from "./../../assets/css/Developers/developers";
 
 function Developers({ user_id, profiles, getAllProfiles }) {
   const [developers, setDevelopers] = useState();
+  const history = useHistory();
+  const classes = useStyles();
 
   useEffect(() => {
     async function getDevs() {
@@ -19,17 +27,35 @@ function Developers({ user_id, profiles, getAllProfiles }) {
     setDevelopers(developers);
   }, [profiles]);
 
-  return (
-    <>
+  const goToProfile = (id) => {
+    history.push(`/developers/${id}`);
+  };
+
+  if (!developers) {
+    return (
       <div>
-        {developers &&
-          developers.map((developer) => (
-            <div key={developer._id}>
-              <Cards developer={developer} />
-            </div>
-          ))}
+        <h1>Loading</h1>
       </div>
-    </>
+    );
+  }
+
+  return (
+    <GridList cellHeight={180} className={classes.root}>
+      {developers.map((developer) => (
+        <GridListTile key={developer._id}>
+          <img src={developer.avatar} alt={developer.name} />
+          <GridListTileBar
+            title={developer.name}
+            subtitle={developer.email}
+            actionIcon={
+              <IconButton onClick={() => goToProfile(developer._id)}>
+                <InfoIcon color="secondary" />
+              </IconButton>
+            }
+          />
+        </GridListTile>
+      ))}
+    </GridList>
   );
 }
 export const MapStateToProps = (state) => {

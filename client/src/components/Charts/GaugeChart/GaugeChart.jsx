@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import { getAllProfiles } from "../../../store/actions/profile";
-import calculatePercentage from "../../../helpers/services";
+import { calculatePercentage } from "../../../helpers/services";
 import useResizeObserver from "../../../helpers/useReciseObserver";
 import { select } from "d3";
 import { createGaugeChart } from "../helpers/gaugeChartElements";

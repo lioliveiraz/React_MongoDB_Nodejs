@@ -2,13 +2,16 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
   root: {
+    display: "flex",
+    justifyContent: "space-between",
     background: "#1A535C",
-    color: "white",
+    padding: "0.3rem",
   },
-  subnav: {},
-  links: { color: "white" },
-  button: {
-    position: "relative",
-    right: "50%",
+  menu: {},
+
+  links: {
+    textTransform: "capitalize",
+    color: "#1A535C",
+    cursor: "pointer",
   },
 }));
