@@ -10,12 +10,20 @@ function getUserId(token) {
   return null;
 }
 
+function isAdm(token) {
+  if (token) {
+    return jwt_decode(token).user.adm;
+  }
+  return null;
+}
+
 const initialState = {
   token: token,
   isAuthenticated: !!token,
   loading: true,
   user: getUserId(token),
   errors: null,
+  adm: isAdm(token),
 };
 
 export default function (state = initialState, action) {
@@ -25,7 +33,7 @@ export default function (state = initialState, action) {
       localStorage.setItem("token", payload);
       return {
         ...state,
-        token: payload,
+        token: payload.token,
         isAuthenticated: true,
         loading: false,
         errors: null,

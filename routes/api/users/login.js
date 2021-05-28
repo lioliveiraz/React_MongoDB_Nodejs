@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ errors: { msg: "User not found" } });
 
     const { isPasswordCorrect, user } = userObject;
-    const payload = { user: { id: user.id } };
+    const payload = { user: { id: user.id, adm: user.role } };
 
     if (isPasswordCorrect) {
       const token = createToken(payload);

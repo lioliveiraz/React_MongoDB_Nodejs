@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import ProfileCard from "../../components/Base/ProfileCard";
+import ProfileCard from "../../components/Cards/ProfileCard";
 import { getCurrentProfile } from "./../../store/actions/profile";
-import CreateUpdateProfile from "./CreateUpdateProfile";
 
 function Profile({ token, getCurrentProfile, profile }) {
   const [isForm, setIsForm] = useState(false);
@@ -14,14 +13,6 @@ function Profile({ token, getCurrentProfile, profile }) {
   return (
     <div>
       <ProfileCard profile={profile} />
-
-      <button onClick={() => setIsForm(!isForm)}>
-        {" "}
-        {!profile.loading ? "Update Profile" : "Create Profile"}
-      </button>
-      {isForm ? (
-        <CreateUpdateProfile token={token} setIsForm={setIsForm} />
-      ) : null}
     </div>
   );
 }

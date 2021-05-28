@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import ProfileCard from "./../../components/Base/ProfileCard";
 import { connect } from "react-redux";
 import { getProfilePerId } from "./../../store/actions/profile";
 import Spinner from "./../../components/Base/Spinner";
+import ProfileCard from "./../../components/Cards/ProfileCard";
 
 function DeveloperProfile({ getProfilePerId, userProfile }) {
   const { id } = useParams();
@@ -29,7 +29,7 @@ function DeveloperProfile({ getProfilePerId, userProfile }) {
     </div>
   );
 }
-export const MapStateToProps = (state) => {
+const MapStateToProps = (state) => {
   return {
     userProfile: state.profile,
   };

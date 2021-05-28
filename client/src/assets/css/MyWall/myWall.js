@@ -15,17 +15,19 @@ export const useStylesMyWall = makeStyles((theme) => ({
     color: "white",
   },
   columns: {
-    width: "90%",
+    width: "80%",
     marginTop: "10px",
+    padding: "1rem",
   },
   columnsName: {
     textAlign: "center",
     textTransform: "uppercase",
     color: "white",
+    padding: "5px",
   },
   list: {
     width: "80%",
-    margin: "0 auto 0 auto",
+    margin: "0 auto 0.3rem auto",
     padding: "5px",
   },
 }));

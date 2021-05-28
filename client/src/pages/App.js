@@ -17,6 +17,7 @@ import Developers from "./Developers/Developers.jsx";
 import Footer from "./../components/Footer";
 import { Grid } from "@material-ui/core";
 import { useStyles } from "./../assets/css/App/app";
+import PrivateRoute from "./../components/Routing/PrivateRoute";
 
 function App({ isAuthenticated }) {
   const classes = useStyles();
@@ -48,16 +49,22 @@ function App({ isAuthenticated }) {
             {isAuthenticated ? <Redirect to="/" /> : <SignUp />}
           </Route>
 
-          {/*auth*/}
-          <Route exact path="/my-profile">
-            {!isAuthenticated ? <Redirect to="/" /> : <Profile />}
-          </Route>
-          <Route path="/my-profile/wall">
-            {!isAuthenticated ? <Redirect to="/" /> : <Wall />}
-          </Route>
-          <Route path="/my-profile/create-update">
-            {!isAuthenticated ? <Redirect to="/" /> : <CreateUpdateProfile />}
-          </Route>
+          <PrivateRoute component={Login} exact path="/login" />
+          <PrivateRoute component={SignUp} exact path="/signup" />
+
+          <PrivateRoute component={Profile} exact path="/my-profile" />
+          <PrivateRoute component={Wall} exact path="/my-profile/wall" />
+          <PrivateRoute
+            component={CreateUpdateProfile}
+            exact
+            path="/edit-profile"
+          />
+
+          <PrivateRoute
+            component={CreateUpdateProfile}
+            exact
+            path="/my-profile/create-update"
+          />
         </Switch>
       </Grid>
     </Grid>

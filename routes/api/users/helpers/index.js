@@ -29,23 +29,18 @@ module.exports = {
   createUser: async function createUser(user) {
     const { email, name, password } = user;
     technologies = await Technologies.find();
-    /* const avatar = gravatar.url(email, {
+    const avatar = gravatar.url(email, {
       s: "200",
       r: "pg",
       d: "mm",
     });
-
-
- */
-
-    const avatar =
-      "https://images.pexels.com/photos/2804282/pexels-photo-2804282.jpeg?cs=srgb&dl=pexels-luriko-yamaguchi-2804282.jpg&fm=jpg";
-
+    const role = false;
     user = new User({
       name,
       email,
       avatar,
       password,
+      role,
     });
 
     const wall = new Wall({

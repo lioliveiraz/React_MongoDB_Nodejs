@@ -18,8 +18,14 @@ import Menu from "@material-ui/core/Menu";
 import Button from "@material-ui/core/Button";
 
 function Navbar({ handlerLogOut, isAuthenticated }) {
-  const { DEVELOPERS_PROFILES, MY_PROFILE, MY_WALL, SING_IN, SING_UP } =
-    navigationLinks;
+  const {
+    DEVELOPERS_PROFILES,
+    MY_PROFILE,
+    MY_WALL,
+    SING_IN,
+    SING_UP,
+    EDIT_PROFILE,
+  } = navigationLinks;
   const [anchorEl, setAnchorEl] = useState(null);
   const [profileMenu, setProfileMenu] = useState(null);
   const classes = useStyles();
@@ -102,7 +108,15 @@ function Navbar({ handlerLogOut, isAuthenticated }) {
               <Typography color="textPrimary">{MY_PROFILE}</Typography>
             </Link>
           </MenuItem>
-
+          <MenuItem onClick={handleCloseProfile}>
+            <Link
+              className={classes.links}
+              color="inherit"
+              href="/edit-profile"
+            >
+              <Typography color="textPrimary">{EDIT_PROFILE}</Typography>
+            </Link>
+          </MenuItem>
           <MenuItem onClick={handleCloseProfile}>
             <Link
               className={classes.links}
