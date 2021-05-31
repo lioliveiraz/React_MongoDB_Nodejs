@@ -3,17 +3,16 @@ import jwt_decode from "jwt-decode";
 
 const token = localStorage.getItem("token");
 
-function getUserId(token) {
-  if (token) {
-    return jwt_decode(token).user.id;
-  }
-  return null;
+function getUserId(userToken) {
+  if (userToken) return jwt_decode(userToken).user.id;
+  return false;
 }
 
-function isAdm(token) {
-  if (token) {
-    return jwt_decode(token).user.adm;
+function isAdm(userToken) {
+  if (userToken) {
+    return jwt_decode(userToken).user.adm;
   }
+
   return null;
 }
 
@@ -26,17 +25,19 @@ const initialState = {
   adm: isAdm(token),
 };
 
-export default function (state = initialState, action) {
+export default function auth(state = initialState, action) {
   const { payload, type } = action;
   switch (type) {
     case LOGIN_SUCCEED:
       localStorage.setItem("token", payload);
       return {
         ...state,
-        token: payload.token,
+        token: payload,
         isAuthenticated: true,
         loading: false,
         errors: null,
+        user: getUserId(payload),
+        adm: isAdm(payload),
       };
     case LOGIN_FAIL:
       localStorage.removeItem("token");
@@ -57,6 +58,7 @@ export default function (state = initialState, action) {
         token: null,
         isAuthenticated: false,
         loading: false,
+        adm: false,
       };
     default:
       return state;

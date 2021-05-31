@@ -45,5 +45,11 @@ export const getAllProfiles = () => async (dispatch) => {
   try {
     const res = await fetchDevelopers();
     dispatch({ type: GET_ALL_PROFILES, payload: res });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: UPDATE_PROFILE_FAIL,
+      payload: { error: "Something went wrong" },
+    });
+  }
 };

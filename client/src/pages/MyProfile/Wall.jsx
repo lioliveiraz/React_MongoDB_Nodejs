@@ -6,23 +6,23 @@ import {
   updateVotes,
   buildPersonalWall,
 } from "./../../store/actions/myWall";
-import { findColumn, getBgPerCategory } from "../../helpers/services";
-import { buildCommonWall } from "../../store/actions/wall";
-import { buildSurvey } from "./../../store/actions/survey";
+import { findColumn } from "../../helpers/services";
+
 import Paper from "@material-ui/core/Paper";
 import { useStylesMyWall } from "./../../assets/css/MyWall/myWall";
 import { Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { useStyles } from "./../../assets/css/Board/Board";
+import { getCategories } from "./../../store/actions/categories";
 
 function Wall({
   buildPersonalWall,
+  getCategories,
   wall,
   token,
   updateWall,
   updateVotes,
-  buildCommonWall,
-  buildSurvey,
+  categories,
 }) {
   const [columnsUpdated, updateColumns] = useState([]);
   const classes = useStylesMyWall();
@@ -44,22 +44,22 @@ function Wall({
   useEffect(() => {
     async function getWall() {
       buildPersonalWall(token);
+      getCategories();
     }
     getWall();
-  }, []);
+  }, [buildPersonalWall, getCategories, token]);
 
   useEffect(() => {
     updateColumns(Object.entries(wall.techs));
   }, [wall]);
 
   const handleOnDropEnd = (result) => {
-    console.log(result);
     if (result.destination) {
       const columns = Array.from(columnsUpdated);
       const dropColumnName = result.destination.droppableId;
       const dragColumnName = result.source.droppableId;
 
-      if (dragColumnName === "pool" && dropColumnName != "pool") {
+      if (dragColumnName === "pool" && dropColumnName !== "pool") {
         const task = result.source.index;
         const draggableColumn = findColumn(columns, dragColumnName);
         const droppableColumn = findColumn(columns, dropColumnName);
@@ -72,6 +72,14 @@ function Wall({
         updateWall(columnsUpdated, token);
       }
     }
+  };
+
+  const categoryColor = (id) => {
+    if (categories) {
+      const selectedCategory = categories.find((cat) => cat._id === id);
+      return selectedCategory.color;
+    }
+    return "teal";
   };
 
   return (
@@ -89,29 +97,31 @@ function Wall({
                   >
                     {columnName}
                     {techs &&
-                      techs.map(({ _id, name, category }, index) => (
-                        <Draggable key={_id} draggableId={_id} index={index}>
-                          {(provided, snapshot) => {
-                            return (
-                              <li
-                                className={classes.list}
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                              >
-                                <Typography
-                                  variant="body1"
-                                  style={{
-                                    background: getBgPerCategory(category),
-                                  }}
+                      techs.map(
+                        ({ _id, name, category: category_ID }, index) => (
+                          <Draggable key={_id} draggableId={_id} index={index}>
+                            {(provided, snapshot) => {
+                              return (
+                                <li
+                                  className={classes.list}
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
                                 >
-                                  {name}
-                                </Typography>
-                              </li>
-                            );
-                          }}
-                        </Draggable>
-                      ))}
+                                  <Typography
+                                    variant="body1"
+                                    style={{
+                                      background: categoryColor(category_ID),
+                                    }}
+                                  >
+                                    {name}
+                                  </Typography>
+                                </li>
+                              );
+                            }}
+                          </Draggable>
+                        )
+                      )}
                     {provided.placeholder}
                   </ul>
                 )}
@@ -128,6 +138,7 @@ const MapStateToProps = (state) => {
   return {
     token: state.auth.token,
     wall: state.myWall,
+    categories: state.category.categories,
   };
 };
 
@@ -135,4 +146,5 @@ export default connect(MapStateToProps, {
   updateWall,
   updateVotes,
   buildPersonalWall,
+  getCategories,
 })(Wall);

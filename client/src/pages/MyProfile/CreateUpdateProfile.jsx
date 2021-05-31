@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import Input from "./../../components/Base/Input";
 import { upDateProfile } from "./../../store/actions/profile";
 import { connect } from "react-redux";
-import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
-import profile from "../../store/reducers/profile";
+import profileValidator from "../../helpers/validations/profileValidator";
 
 function CreateUpdateProfile({ token, upDateProfile }) {
   const history = useHistory();
@@ -12,6 +11,7 @@ function CreateUpdateProfile({ token, upDateProfile }) {
     skills: [],
   });
   const [skill, setSkill] = useState("");
+  const [errors, setErrors] = useState({});
 
   const [toggleSocialMedia, setToggleSocialMedia] = useState(false);
 
@@ -32,22 +32,13 @@ function CreateUpdateProfile({ token, upDateProfile }) {
     }
   };
 
-  /*   const addSocialMedia = async (value, name) => {
-    await handleUserInput(
-      {
-        ...profileObject.social,
-        [name]: value,
-      },
-      "social"
-    );
-  }; */
-
   const submit = async (e) => {
     e.preventDefault();
-    try {
-      await upDateProfile(profileObject, token, history);
-    } catch (error) {
-      toast.error(error.response.data.errors);
+    const inputErrors = profileValidator(profileObject);
+    if (inputErrors) {
+      setErrors(inputErrors);
+    } else {
+      upDateProfile(profileObject, token, history);
     }
   };
 
@@ -57,12 +48,15 @@ function CreateUpdateProfile({ token, upDateProfile }) {
         name="bio"
         cols="30"
         rows="10"
+        max="500"
         onChange={(e) => handleUserInput(e.target.value, e.target.name)}
         placeholder="Bio"
       />
+      {errors.bio && errors.bio}
       <input
         value={skill}
         type="text"
+        name="skills"
         onChange={(e) => setSkill(e.target.value)}
         onKeyUp={(e) => addSkillToArray(e.code, e.target.value)}
         placeholder="css,html,javascript"
@@ -82,7 +76,7 @@ function CreateUpdateProfile({ token, upDateProfile }) {
           </option>
         ))}
       </select>
-
+      {errors.role && errors.role}
       <button
         onClick={(e) => {
           e.preventDefault();
@@ -101,6 +95,7 @@ function CreateUpdateProfile({ token, upDateProfile }) {
             type="text"
             getUserInput={handleUserInput}
             placeholder="GitHub username"
+            error={errors.githubusername && errors.githubusername}
           />
           <Input
             name="youtube"
@@ -108,6 +103,7 @@ function CreateUpdateProfile({ token, upDateProfile }) {
             type="text"
             placeholder="Youtube username"
             getUserInput={handleUserInput}
+            error={errors.youtube && errors.youtube}
           />
           <Input
             name="twitter"
@@ -115,6 +111,7 @@ function CreateUpdateProfile({ token, upDateProfile }) {
             type="text"
             placeholder="Twitter username"
             getUserInput={handleUserInput}
+            error={errors.twitter && errors.twitter}
           />
           <Input
             name="linkedin"
@@ -122,6 +119,7 @@ function CreateUpdateProfile({ token, upDateProfile }) {
             type="text"
             placeholder="Llinkedin username"
             getUserInput={handleUserInput}
+            error={errors.linkedin && errors.linkedin}
           />
         </>
       ) : null}

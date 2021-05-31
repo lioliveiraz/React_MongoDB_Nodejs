@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import { connect } from "react-redux";
 import { getProfilePerId } from "./../../store/actions/profile";
@@ -13,7 +13,7 @@ function DeveloperProfile({ getProfilePerId, userProfile }) {
       await getProfilePerId(id);
     }
     getDeveloper();
-  }, []);
+  }, [getProfilePerId, id]);
 
   if (!userProfile) {
     return (

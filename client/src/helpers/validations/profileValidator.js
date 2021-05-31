@@ -1,12 +1,16 @@
 import Joi from "joi-browser";
 
 const schema = {
-  name: Joi.string().required().max(30),
-  email: Joi.string().required().email(),
-  password: Joi.string().alphanum().min(8).required(),
+  bio: Joi.string().min(10).max(500),
+  skills: Joi.array().items(Joi.string()),
+  role: Joi.string().min(3),
+  githubusername: Joi.string(),
+  youtube: Joi.string().min(3),
+  twitter: Joi.string().min(3),
+  linkedin: Joi.string().min(3),
 };
 
-export default function userValidator(inputs) {
+export default function profileValidator(inputs) {
   const { error } = Joi.validate(inputs, schema, { abortEarly: false });
   if (!error) return null;
   const validationErrors = {};

@@ -13,7 +13,7 @@ const initialState = {
   status: null,
 };
 
-export default function (state = initialState, action) {
+export default function profile(state = initialState, action) {
   const { payload, type } = action;
   switch (type) {
     case GET_PROFILE:

@@ -1,5 +1,7 @@
-import { GET_WALL } from "../actions/types";
+import { CREATE_NEW_TECH, GET_WALL, PUSH_NOTIFICATION } from "../actions/types";
 import { fetchTechs } from "./../../api/requests/get";
+import { registerTech } from "./../../api/requests/post";
+import { CREATE_NEW_TECH_FAIL } from "./types";
 
 export const buildCommonWall = () => async (dispatch) => {
   try {
@@ -15,5 +17,20 @@ export const buildCommonWall = () => async (dispatch) => {
     dispatch({ type: GET_WALL, payload: { hot, cold, pool, warm } });
   } catch (err) {
     console.log(err);
+  }
+};
+
+export const addNewTech = (history, techObject, token) => async (dispatch) => {
+  try {
+    const res = await registerTech(techObject, token);
+    dispatch({ type: CREATE_NEW_TECH, payload: res.data.message });
+    dispatch({ type: PUSH_NOTIFICATION });
+
+    history.push("/");
+  } catch (error) {
+    dispatch({
+      type: CREATE_NEW_TECH_FAIL,
+      payload: error.response.data.errors,
+    });
   }
 };

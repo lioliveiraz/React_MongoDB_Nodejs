@@ -17,3 +17,15 @@ export const updateVoteAPI = async (id, column, token) => {
   });
   return res;
 };
+
+export const updateCategory = async (id, color, token) => {
+  const res = await http.put(
+    `/categories/${id}`,
+    { color },
+    {
+      headers: { Authorization: "Bearer " + token },
+    }
+  );
+
+  return res;
+};

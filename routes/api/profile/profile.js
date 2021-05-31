@@ -26,8 +26,8 @@ router.get("/me", auth, async (req, res) => {
     }
 
     res.status(200).json(profile);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     res.status(500).json({
       errors: {
         msg: "Something went wrong with our servers, try again latter!",

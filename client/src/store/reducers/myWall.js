@@ -1,4 +1,4 @@
-import { UPDATE_WALL, GET_MY_WALL } from "../actions/types";
+import { UPDATE_WALL, GET_MY_WALL, PUSH_NOTIFICATION } from "../actions/types";
 
 const initialState = {
   techs: {
@@ -9,18 +9,22 @@ const initialState = {
   notification: 0,
 };
 
-export default function (state = initialState, action) {
+export default function myWall(state = initialState, action) {
   const { payload, type } = action;
   switch (type) {
     case GET_MY_WALL:
       return {
         ...state,
         techs: { hot: payload.hot, cold: payload.cold, pool: payload.pool },
-        notification: payload.notification,
+        notification: 0,
       };
     case UPDATE_WALL:
       return state;
-
+    case PUSH_NOTIFICATION:
+      return {
+        ...state,
+        notification: state.notification + 1,
+      };
     default:
       return state;
   }

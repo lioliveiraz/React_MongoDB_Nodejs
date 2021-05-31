@@ -14,14 +14,17 @@ function GaugeChart({ developers, getAllProfiles, tech }) {
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
 
-  useEffect(async () => {
-    await getAllProfiles();
-    if (tech) {
-      const { like, name } = tech;
-      setName(name);
-      setLikePercentage(calculatePercentage(developers, like));
+  useEffect(() => {
+    async function getProfile() {
+      await getAllProfiles();
+      if (tech) {
+        const { like, name } = tech;
+        setName(name);
+        setLikePercentage(calculatePercentage(developers, like));
+      }
     }
-  }, [tech]);
+    getProfile();
+  }, [tech, developers, getAllProfiles]);
 
   useEffect(() => {
     if (!dimensions || !tech) return;
@@ -33,6 +36,7 @@ function GaugeChart({ developers, getAllProfiles, tech }) {
 
   return (
     <div>
+      {likePercentage}
       <div
         ref={wrapperRef}
         style={{ height: "50vh", background: "red", width: "30%" }}

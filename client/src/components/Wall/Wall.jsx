@@ -3,7 +3,6 @@ import Board from "./Board";
 import { Grid } from "@material-ui/core";
 import { useStyles } from "./../../assets/css/Wall/wall";
 import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
 
 function Wall({ wall }) {
   const classes = useStyles();
