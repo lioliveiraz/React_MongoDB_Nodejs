@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import ProfileCard from "../../components/Cards/ProfileCard";
 import { getCurrentProfile } from "./../../store/actions/profile";
 
 function Profile({ token, getCurrentProfile, profile }) {
-  const [isForm, setIsForm] = useState(false);
-
-  useEffect(async () => {
+  useEffect(() => {
     getCurrentProfile(token);
-  }, []);
+  }, [getCurrentProfile, token]);
 
   return (
     <div>

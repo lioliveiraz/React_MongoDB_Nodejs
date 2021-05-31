@@ -17,3 +17,19 @@ export const registerProfile = async (profileObj, token) => {
 
   return response;
 };
+
+export const registerNewCategory = async (categoryObject, token) => {
+  const response = await http.post("/categories", categoryObject, {
+    headers: { Authorization: "Bearer " + token },
+  });
+
+  return response;
+};
+
+export const registerTech = async (technologyObject, token) => {
+  const response = await http.post("/techs", technologyObject, {
+    headers: { Authorization: "Bearer " + token },
+  });
+
+  return response;
+};

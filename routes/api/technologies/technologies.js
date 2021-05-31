@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const Technologies = require("../../../models/Technologies");
+const Wall = require("../../../models/Walls");
 const auth = require("../../../middleware/auth");
 const {
   findTechAndReturnTotalVotes,
@@ -17,7 +18,9 @@ const {
 
 router.get("/", async (req, res) => {
   try {
-    const techs = await Technologies.find().sort("-date");
+    const techs = await Technologies.find()
+      .populate("category", ["name", "color"])
+      .sort("-date");
     res.status(200).send({ techs });
   } catch (error) {
     console.error(error);
@@ -84,6 +87,12 @@ router.post(
       }
       technology = await createNewTech(techData);
       const savedTech = await technology.save();
+
+      await Wall.updateMany(
+        {},
+        { $push: { pool: technology } },
+        { multi: true }
+      );
 
       res.status(200).json({
         message: "Congratulations! You registered a new tech.",

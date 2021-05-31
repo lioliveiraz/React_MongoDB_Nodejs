@@ -15,7 +15,7 @@ function ProfileCard({ profile: { loading, profile, status } }) {
       }
     }
     getDeveloper();
-  }, [profile]);
+  }, [profile, loading]);
 
   if (!profile) {
     return <p>{status}</p>;

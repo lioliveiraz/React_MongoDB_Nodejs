@@ -1,15 +1,13 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import { capitalize } from "../../helpers/services";
 
 function Input(props) {
-  const { type, name, label, placeholder, required, getUserInput } = props;
+  const { type, name, placeholder, required, getUserInput, error } = props;
 
   return (
     <>
       <TextField
         id="standard-secondary"
-        label={label ? capitalize(label) : capitalize(name)}
         color="secondary"
         type={type}
         name={name}
@@ -17,6 +15,7 @@ function Input(props) {
         required={required}
         onInput={(e) => getUserInput(e.target.value, name)}
       />
+      {error && error}
     </>
   );
 }

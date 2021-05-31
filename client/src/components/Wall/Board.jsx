@@ -1,12 +1,13 @@
-import React from "react";
-import { getBgPerCategory } from "../../helpers/services";
+import React, { useState } from "react";
 import Paper from "@material-ui/core/Paper";
 import { useStyles } from "./../../assets/css/Board/Board";
 import Typography from "@material-ui/core/Typography";
-import { Grid } from "@material-ui/core";
+import { Grid, Modal, Popover } from "@material-ui/core";
 
 function Board({ techArray, name }) {
   const classes = useStyles();
+  const [techObject, setTechObject] = useState();
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const chooseClass = (columnName) => {
     switch (columnName) {
@@ -21,23 +22,57 @@ function Board({ techArray, name }) {
     }
   };
 
+  const openPopOver = (tech, e) => {
+    setAnchorEl(e.currentTarget);
+    setTechObject(tech);
+  };
+
   return (
     <Paper elevation={3} className={chooseClass(name) + " " + classes.root}>
       <Typography variant="h4" className={classes.title}>
         {name}
       </Typography>
-      {techArray.map(({ name, category }, index) => (
+      {techArray.map((tech, index) => (
         <Grid
           key={index}
           className={classes.tech}
           style={{
-            color: getBgPerCategory(category),
-            border: `2px solid ${getBgPerCategory(category)}`,
+            color: tech.category.color,
+            border: `2px solid ${tech.category.color}`,
+            background: "yellow",
           }}
+          onMouseEnter={(e) => openPopOver(tech, e)}
+          onMouseLeave={() => setAnchorEl(null)}
         >
           <Typography variant="body1" className={classes.title}>
-            {name}
+            {tech.name}
           </Typography>
+          <Popover
+            className={`${classes.popover} ${classes.paper}`}
+            classes={{
+              paper: classes.paper,
+            }}
+            open={!!anchorEl}
+            onClose={() => setAnchorEl(null)}
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            disableRestoreFocus
+          >
+            {techObject ? (
+              <>
+                <p>{techObject.name}</p>
+                <p>{techObject.description}</p>
+                <p>{techObject.creator}</p>
+              </>
+            ) : null}
+          </Popover>
         </Grid>
       ))}
     </Paper>

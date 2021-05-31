@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { select, scaleBand, scaleLinear, max } from "d3";
 import useResizeObserver from "../../../helpers/useReciseObserver";
 import { createBar, createLabel } from "../helpers/barChartElements";

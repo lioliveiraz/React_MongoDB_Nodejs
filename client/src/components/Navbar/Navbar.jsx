@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { handlerLogOut } from "../store/actions/auth";
+import { handlerLogOut } from "../../store/actions/auth";
 import { connect } from "react-redux";
-import { useStyles } from "./../assets/css/Navigation/navigation";
+import { useStyles } from "../../assets/css/Navigation/navigation";
 import { useHistory } from "react-router-dom";
 
 import { AppBar, MenuItem } from "@material-ui/core";
-import { navigationLinks } from "../helpers/globalVar";
+import { navigationLinks } from "../../helpers/globalVar";
 
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
@@ -16,33 +16,27 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Menu from "@material-ui/core/Menu";
 import Button from "@material-ui/core/Button";
+import ProfileMenu from "./ProfileMenu";
+import AdmLinks from "./AdmLinks";
+import PrivateLinks from "./PrivateLinks";
 
 function Navbar({ handlerLogOut, isAuthenticated }) {
-  const {
-    DEVELOPERS_PROFILES,
-    MY_PROFILE,
-    MY_WALL,
-    SING_IN,
-    SING_UP,
-    EDIT_PROFILE,
-  } = navigationLinks;
+  const { DEVELOPERS_PROFILES, SING_IN, SING_UP } = navigationLinks;
   const [anchorEl, setAnchorEl] = useState(null);
   const [profileMenu, setProfileMenu] = useState(null);
+
   const classes = useStyles();
   const history = useHistory();
 
   const handleMainMenu = (e) => {
     setAnchorEl(e.currentTarget);
   };
-  const handleProfileMenu = (e) => {
-    setProfileMenu(e.currentTarget);
-  };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const handleCloseProfile = () => {
-    setProfileMenu(null);
+  const handleProfileMenu = (e) => {
+    setProfileMenu(e.currentTarget);
   };
 
   return (
@@ -69,6 +63,8 @@ function Navbar({ handlerLogOut, isAuthenticated }) {
               <Typography color="textPrimary">{DEVELOPERS_PROFILES}</Typography>
             </Link>
           </MenuItem>
+          <PrivateLinks classes={classes} handleClose={handleClose} />
+          <AdmLinks classes={classes} handleClose={handleClose} />
 
           {!isAuthenticated ? (
             <MenuItem onClick={handleClose}>
@@ -78,6 +74,7 @@ function Navbar({ handlerLogOut, isAuthenticated }) {
             </MenuItem>
           ) : null}
         </Menu>
+
         {isAuthenticated ? (
           <div>
             <IconButton color="inherit" onClick={handleProfileMenu}>
@@ -97,42 +94,18 @@ function Navbar({ handlerLogOut, isAuthenticated }) {
             <Typography variant="button">{SING_IN}</Typography>
           </Button>
         )}
-        <Menu
-          anchorEl={profileMenu}
-          open={Boolean(profileMenu)}
-          onClose={handleCloseProfile}
-          className={classes.menu}
-        >
-          <MenuItem onClick={handleCloseProfile}>
-            <Link className={classes.links} color="inherit" href="/my-profile">
-              <Typography color="textPrimary">{MY_PROFILE}</Typography>
-            </Link>
-          </MenuItem>
-          <MenuItem onClick={handleCloseProfile}>
-            <Link
-              className={classes.links}
-              color="inherit"
-              href="/edit-profile"
-            >
-              <Typography color="textPrimary">{EDIT_PROFILE}</Typography>
-            </Link>
-          </MenuItem>
-          <MenuItem onClick={handleCloseProfile}>
-            <Link
-              className={classes.links}
-              color="inherit"
-              href="/my-profile/wall"
-            >
-              {MY_WALL}
-            </Link>
-          </MenuItem>
-        </Menu>
+
+        <ProfileMenu
+          profileMenu={profileMenu}
+          setProfileMenu={setProfileMenu}
+          classes={classes}
+        />
       </Toolbar>
     </AppBar>
   );
 }
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  poolNotification: state.wall.notification,
+  poolNotification: state.myWall.notification,
 });
 export default connect(mapStateToProps, { handlerLogOut })(Navbar);

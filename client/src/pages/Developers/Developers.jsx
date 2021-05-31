@@ -20,12 +20,12 @@ function Developers({ user_id, profiles, getAllProfiles }) {
       getAllProfiles();
     }
     getDevs();
-  }, []);
+  }, [getAllProfiles]);
 
   useEffect(() => {
-    const developers = profiles.filter((user) => user._id != user_id);
+    const developers = profiles.filter((user) => user._id !== user_id);
     setDevelopers(developers);
-  }, [profiles]);
+  }, [profiles, user_id]);
 
   const goToProfile = (id) => {
     history.push(`/developers/${id}`);

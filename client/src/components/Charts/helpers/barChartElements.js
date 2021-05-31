@@ -1,5 +1,3 @@
-import { getBgPerCategory } from "../../../helpers/services";
-
 export const createBar = (svg, techs, yScale, xScale) => {
   const bar = svg
     .selectAll(".bar")
@@ -8,7 +6,7 @@ export const createBar = (svg, techs, yScale, xScale) => {
       enter.append("rect").attr("y", (entry, index) => yScale(index))
     )
     .attr("y", (entry, index) => yScale(index))
-    .attr("fill", (entry) => getBgPerCategory(entry.category))
+    .attr("fill", (entry) => entry.category.color)
     .attr("class", "bar")
     .attr("x", 0)
     .attr("height", yScale.bandwidth() + 0.5)

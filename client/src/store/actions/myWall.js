@@ -1,7 +1,6 @@
-import { UPDATE_WALL, GET_MY_WALL, GET_UPDATED_BOOL } from "./types";
+import { UPDATE_WALL, GET_MY_WALL } from "./types";
 import { fetchMyWall } from "../../api/requests/get";
 import { updateWallAPI, updateVoteAPI } from "../../api/requests/put";
-import { buildSurvey } from "./survey";
 
 export const buildPersonalWall = (token) => async (dispatch) => {
   try {
@@ -26,6 +25,7 @@ export const updateWall = (updatedWallArr, token) => async (dispatch) => {
   });
   try {
     await updateWallAPI(wallObject, token);
+
     dispatch({ type: UPDATE_WALL, payload: wallObject });
   } catch (err) {
     console.log(err);
@@ -35,7 +35,7 @@ export const updateWall = (updatedWallArr, token) => async (dispatch) => {
 export const updateVotes = (id, destination, token) => async (dispatch) => {
   const column = destination === "hot" ? "like" : "unlike";
   try {
-    const res = await updateVoteAPI(id, column, token);
+    await updateVoteAPI(id, column, token);
     dispatch({ type: UPDATE_WALL });
   } catch (err) {
     console.log(err);

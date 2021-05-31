@@ -11,13 +11,15 @@ import Wall from "./MyProfile/Wall.jsx";
 import DeveloperProfile from "./Developers/_Id.jsx";
 import Login from "./Login.jsx";
 import SignUp from "./SignUp.jsx";
-import Navbar from "./../components/Navbar";
+import Navbar from "../components/Navbar/Navbar";
 import Home from "./Home.jsx";
 import Developers from "./Developers/Developers.jsx";
-import Footer from "./../components/Footer";
 import { Grid } from "@material-ui/core";
 import { useStyles } from "./../assets/css/App/app";
 import PrivateRoute from "./../components/Routing/PrivateRoute";
+import AdministratorRouter from "../components/Routing/AdministratorRouter";
+import Categories from "./Adm/Categories";
+import AddNewTech from "./Technology/AddNewTech";
 
 function App({ isAuthenticated }) {
   const classes = useStyles();
@@ -53,6 +55,8 @@ function App({ isAuthenticated }) {
           <PrivateRoute component={SignUp} exact path="/signup" />
 
           <PrivateRoute component={Profile} exact path="/my-profile" />
+          <PrivateRoute component={AddNewTech} exact path="/new-tech" />
+
           <PrivateRoute component={Wall} exact path="/my-profile/wall" />
           <PrivateRoute
             component={CreateUpdateProfile}
@@ -64,6 +68,12 @@ function App({ isAuthenticated }) {
             component={CreateUpdateProfile}
             exact
             path="/my-profile/create-update"
+          />
+
+          <AdministratorRouter
+            component={Categories}
+            exact
+            path="/categories"
           />
         </Switch>
       </Grid>
