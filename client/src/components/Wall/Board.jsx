@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Paper from "@material-ui/core/Paper";
 import { useStyles } from "./../../assets/css/Board/Board";
 import Typography from "@material-ui/core/Typography";
-import { Grid, Modal, Popover } from "@material-ui/core";
+import { Grid, Popover } from "@material-ui/core";
+import TechModal from "../Cards/TechModal";
 
 function Board({ techArray, name }) {
   const classes = useStyles();
@@ -39,7 +40,6 @@ function Board({ techArray, name }) {
           style={{
             color: tech.category.color,
             border: `2px solid ${tech.category.color}`,
-            background: "yellow",
           }}
           onMouseEnter={(e) => openPopOver(tech, e)}
           onMouseLeave={() => setAnchorEl(null)}
@@ -67,9 +67,11 @@ function Board({ techArray, name }) {
           >
             {techObject ? (
               <>
-                <p>{techObject.name}</p>
-                <p>{techObject.description}</p>
-                <p>{techObject.creator}</p>
+                <TechModal
+                  name={techObject.name}
+                  creator={techObject.creator}
+                  description={techObject.description}
+                />
               </>
             ) : null}
           </Popover>

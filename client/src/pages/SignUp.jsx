@@ -69,7 +69,6 @@ function SignUp() {
           required={true}
           getUserInput={getUserInput}
         />
-        {inputErrors["password"] && inputErrors.password}
 
         <button onClick={submit}> Submit </button>
       </form>

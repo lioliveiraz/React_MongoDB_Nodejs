@@ -14,6 +14,7 @@ export const useStyles = makeStyles((theme) => ({
   wall: {
     background: "#F8F8F8",
     display: "flex",
+    flexDirection: "column",
     minWidth: "90%",
     minHeight: "50vh",
     maxHeight: "80%",
@@ -21,11 +22,18 @@ export const useStyles = makeStyles((theme) => ({
     paddingTop: "1.5rem",
     paddingBottom: "1.5rem",
   },
+  boards: {
+    display: "flex",
+    minHeight: "50vh",
+    padding: "1rem",
+    justifyContent: "center",
+  },
   column: {
     minWidth: "30%",
     margin: "0.2rem",
   },
   pool: {
     width: "100%",
+    padding: "1rem",
   },
 }));

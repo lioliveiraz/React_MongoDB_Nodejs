@@ -17,21 +17,24 @@ function Wall({ wall }) {
       direction="column"
     >
       <Paper className={classes.wall} elevation={3}>
-        <Grid item className={classes.column}>
-          <Board techArray={cold} name="cold" />
+        <Grid item className={classes.boards}>
+          <Grid item className={classes.column}>
+            <Board techArray={cold} name="cold" />
+          </Grid>
+
+          <Grid item className={classes.column}>
+            <Board techArray={warm} name="warm" />
+          </Grid>
+
+          <Grid item className={classes.column}>
+            <Board techArray={hot} name="hot" />
+          </Grid>
         </Grid>
 
-        <Grid item className={classes.column}>
-          <Board techArray={warm} name="warm" />
-        </Grid>
-
-        <Grid item className={classes.column}>
-          <Board techArray={hot} name="hot" />
+        <Grid item className={classes.pool}>
+          <Board techArray={pool} name="pool" />
         </Grid>
       </Paper>
-      <Grid item className={classes.pool}>
-        <Board techArray={pool} name="pool" />
-      </Grid>
     </Grid>
   );
 }

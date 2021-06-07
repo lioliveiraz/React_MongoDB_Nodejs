@@ -24,7 +24,7 @@ function Categories({
     if (status) {
       toast.success(status);
     }
-  }, [status, getCategories, token]);
+  }, [status, getCategories, token, errors]);
 
   const updateCategoryColor = async (e) => {
     const color = e.target.value;

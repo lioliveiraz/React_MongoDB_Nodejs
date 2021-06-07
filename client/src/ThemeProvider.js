@@ -1,14 +1,28 @@
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 
+const colors = {
+  blue: "#51608C",
+  brown: "#8C4F2B",
+};
+
 let theme = createMuiTheme({
   palette: {
+    type: "light",
+
+    common: {
+      blue: `${colors.blue}`,
+      lightBlue: "#BDBFBF",
+      lightBrown: "#BF8756",
+      brown: `${colors.brown}`,
+    },
     primary: {
-      main: "#1A535C",
+      main: `${colors.blue}`,
     },
     secondary: {
-      main: "#FEBA33",
+      main: `${colors.brown}`,
     },
   },
+
   typography: {
     fontSize: 15,
 

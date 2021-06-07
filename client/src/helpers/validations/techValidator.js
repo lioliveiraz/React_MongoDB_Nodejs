@@ -1,9 +1,9 @@
 import Joi from "joi-browser";
 
 const schema = {
-  name: Joi.string().required().min(3).max(30),
+  name: Joi.string().required().min(3).max(30).alphanum(),
   description: Joi.string().min(10).max(240),
-  category: Joi.string().required(),
+  category: Joi.string().alphanum().required(),
   creator: Joi.string().min(3).max(30),
 };
 
