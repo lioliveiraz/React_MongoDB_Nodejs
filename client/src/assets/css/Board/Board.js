@@ -4,7 +4,9 @@ export const useStyles = makeStyles((theme) => ({
   root: {
     height: "100%",
     color: "white",
-
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     overflowX: "hidden",
     overflowY: "scroll",
   },
@@ -12,11 +14,12 @@ export const useStyles = makeStyles((theme) => ({
     textTransform: "uppercase",
     fontWeight: 700,
     textAlign: "center",
-    padding: "0.3rem",
+    padding: "0.5rem",
   },
   tech: {
     background: "#f7f7f7",
     margin: "0.2rem",
+    width: "80%",
   },
 
   rootCold: {
@@ -39,7 +42,7 @@ export const useStyles = makeStyles((theme) => ({
     pointerEvents: "none",
   },
   paper: {
-    padding: theme.spacing(1),
+    padding: theme.spacing(0),
     width: "50%",
   },
 }));

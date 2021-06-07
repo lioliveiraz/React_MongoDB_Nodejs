@@ -40,7 +40,7 @@ function Navbar({ handlerLogOut, isAuthenticated }) {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" color="primary">
       <Toolbar className={classes.root}>
         <IconButton onClick={handleMainMenu} color="inherit">
           <MoreVertIcon />

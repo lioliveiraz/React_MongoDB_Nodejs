@@ -7,9 +7,12 @@ import { getCategories } from "./../../store/actions/categories";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import techValidator from "../../helpers/validations/techValidator";
+import { InputLabel, Select, TextareaAutosize } from "@material-ui/core";
+import MenuItem from "@material-ui/core/MenuItem";
 
 function NewTechForm({ addNewTech, token, getCategories, categories, wall }) {
   const [techObject, setTechObject] = useState({});
+  const [category, setCategory] = useState("Select Category");
   const [errors, setErrors] = useState({});
   const history = useHistory();
 
@@ -54,7 +57,7 @@ function NewTechForm({ addNewTech, token, getCategories, categories, wall }) {
         getUserInput={getUserInput}
         error={errors.name && errors.name}
       />
-      <textarea
+      <TextareaAutosize
         name="description"
         cols="30"
         rows="10"
@@ -62,24 +65,28 @@ function NewTechForm({ addNewTech, token, getCategories, categories, wall }) {
         onChange={(e) => getUserInput(e.target.value, e.target.name)}
       />
       {errors.description && errors.description}
+      <InputLabel id="demo-simple-select-label">{category}</InputLabel>
 
-      <select
+      <Select
+        labelId="demo-simple-select-label"
         name="category"
-        id=""
-        onChange={(e) => getUserInput(e.target.value, e.target.name)}
+        value={category}
+        onChange={(e) => {
+          getUserInput(e.target.value, e.target.name);
+          setCategory(e.target.name);
+        }}
       >
-        <option value="white">Select Category</option>
         {categories &&
           categories.map(({ _id, name, color }) => (
-            <option
+            <MenuItem
               key={name}
               style={{ background: color, color: "white" }}
               value={_id}
             >
               {name}
-            </option>
+            </MenuItem>
           ))}
-      </select>
+      </Select>
       <Input
         type="text"
         name="creator"

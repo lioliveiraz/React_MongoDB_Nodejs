@@ -7,8 +7,11 @@ import { useStyles } from "../assets/css/Login/login";
 
 import { handlerLogin } from "../store/actions/auth";
 import Input from "./../components/Base/Input";
-import BaseButton from "../components/Base/BaseButton";
 import { Grid } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+
+import padlock from "../assets/images/padlock.svg";
 
 function Login({ handlerLogin, errors }) {
   const [userObject, setUserObject] = useState({});
@@ -31,35 +34,50 @@ function Login({ handlerLogin, errors }) {
   }, [errors]);
 
   return (
-    <Grid container component="main" className={classes.root}>
-      <Grid item xs={false} sm={12} className={classes.image}>
-        <Grid
-          item
-          xs={12}
-          sm={6}
-          component={Paper}
-          elevation={6}
-          square
-          className={classes.paper}
-        >
-          <h1>Login</h1>
-          <form className="h-formRoot">
-            <Input
-              type="email"
-              name="email"
-              placeholder="johndow@email.com"
-              required={true}
-              getUserInput={getUserInput}
-            />
-            <Input
-              type="password"
-              name="password"
-              required={true}
-              getUserInput={getUserInput}
-            />
-            <BaseButton value="LogIn" handleClick={submit} color="primary" />
+    <Grid
+      container
+      component="main"
+      justify="center"
+      alignItems="center"
+      className={classes.root}
+    >
+      {" "}
+      <Grid item xs={10} sm={8} md={4} className={classes.main}>
+        <Paper elevation={3} className={classes.paper}>
+          <img src={padlock} alt="padlock" className={classes.image} />
+          <Typography variant="p" color="primary" className={classes.title}>
+            LOGIN
+          </Typography>
+
+          <form className={classes.form}>
+            <Grid item className={classes.input}>
+              <Input
+                type="email"
+                name="email"
+                placeholder="johndow@email.com"
+                required={true}
+                getUserInput={getUserInput}
+              />
+            </Grid>
+            <Grid item className={classes.input}>
+              <Input
+                type="password"
+                name="password"
+                required={true}
+                getUserInput={getUserInput}
+              />
+            </Grid>
+
+            <Button
+              onClick={submit}
+              variant="contained"
+              color="secondary"
+              className={classes.button}
+            >
+              LogIn
+            </Button>
           </form>
-        </Grid>
+        </Paper>
       </Grid>
     </Grid>
   );
