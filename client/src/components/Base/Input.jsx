@@ -20,8 +20,9 @@ function Input(props) {
         required={required}
         onInput={(e) => getUserInput(e.target.value, name)}
         className={classes.root}
+        data-cy={`input-${name}`}
       />
-      {error && error}
+      {error && <p> {error}</p>}
     </>
   );
 }

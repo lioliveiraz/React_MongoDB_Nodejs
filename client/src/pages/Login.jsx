@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useStyles } from "../assets/css/Login/login";
 
 import { handlerLogin } from "../store/actions/auth";
+import loginValidator from "../helpers/validations/loginValidator";
 import Input from "./../components/Base/Input";
 import { Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
@@ -15,6 +16,8 @@ import padlock from "../assets/images/padlock.svg";
 
 function Login({ handlerLogin, errors }) {
   const [userObject, setUserObject] = useState({});
+  const [inputErrors, setInputErrors] = useState({});
+
   const classes = useStyles();
 
   const getUserInput = (value, name) => {
@@ -26,7 +29,17 @@ function Login({ handlerLogin, errors }) {
 
   const submit = async (e) => {
     e.preventDefault();
-    handlerLogin(userObject);
+    const validationErrors = loginValidator(userObject);
+    if (validationErrors) {
+      for (const error in validationErrors) {
+        setInputErrors({
+          ...inputErrors,
+          [error]: validationErrors[error],
+        });
+      }
+    } else {
+      handlerLogin(userObject);
+    }
   };
 
   useEffect(() => {
@@ -57,6 +70,7 @@ function Login({ handlerLogin, errors }) {
                 placeholder="johndow@email.com"
                 required={true}
                 getUserInput={getUserInput}
+                error={inputErrors["email"] && inputErrors["email"]}
               />
             </Grid>
             <Grid item className={classes.input}>
@@ -65,6 +79,7 @@ function Login({ handlerLogin, errors }) {
                 name="password"
                 required={true}
                 getUserInput={getUserInput}
+                error={inputErrors["password"] && inputErrors["password"]}
               />
             </Grid>
 
