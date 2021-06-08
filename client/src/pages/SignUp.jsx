@@ -4,12 +4,14 @@ import validateUser from "../helpers/validations/userValidator";
 import { toast } from "react-toastify";
 import { registerNewUser } from "./../api/requests/post";
 import { useHistory } from "react-router-dom";
+import Button from "@material-ui/core/Button";
 
 function SignUp() {
-  const [userObject, setUserObject] = useState();
+  const [userObject, setUserObject] = useState({});
   const [inputErrors, setInputErrors] = useState({});
   const history = useHistory();
   const getUserInput = (value, name) => {
+    setInputErrors({});
     setUserObject({
       ...userObject,
       [name]: value,
@@ -18,14 +20,10 @@ function SignUp() {
 
   const submit = async (e) => {
     e.preventDefault();
-    const errors = validateUser(userObject);
-    if (errors) {
-      for (const error in errors) {
-        setInputErrors({
-          ...inputErrors,
-          [error]: errors[error],
-        });
-      }
+
+    const validationErrors = validateUser(userObject);
+    if (validationErrors) {
+      setInputErrors(validationErrors);
     } else {
       try {
         const response = await registerNewUser(userObject);
@@ -45,32 +43,44 @@ function SignUp() {
   return (
     <>
       <h1>Sign Up</h1>
-      <form>
+      <form data-cy="signUp-form">
         <Input
           type="text"
           name="name"
           placeholder="John Doe"
           required={true}
           getUserInput={getUserInput}
+          error={inputErrors["name"] && inputErrors.name}
         />
-        {inputErrors["name"] && inputErrors.name}
+
         <Input
           type="email"
           name="email"
           placeholder="johndoe@email.com"
           required={true}
           getUserInput={getUserInput}
+          error={inputErrors["email"] && inputErrors.email}
         />
-        {inputErrors["email"] && inputErrors.email}
 
         <Input
           type="password"
           name="password"
           required={true}
           getUserInput={getUserInput}
+          error={inputErrors["password"] && inputErrors.password}
         />
 
-        <button onClick={submit}> Submit </button>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="large"
+          onClick={submit}
+          disabled={Object.keys(userObject).length !== 3}
+          data-cy="sign-up-submit-button"
+        >
+          {" "}
+          Submit{" "}
+        </Button>
       </form>
     </>
   );

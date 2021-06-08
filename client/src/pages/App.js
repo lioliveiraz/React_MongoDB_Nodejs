@@ -75,6 +75,8 @@ function App({ isAuthenticated }) {
             exact
             path="/categories"
           />
+
+          <Route>Page Not Found</Route>
         </Switch>
       </Grid>
     </Grid>

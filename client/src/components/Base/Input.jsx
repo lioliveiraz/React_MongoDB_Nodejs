@@ -10,6 +10,9 @@ function Input(props) {
   return (
     <>
       <TextField
+        inputProps={{
+          "data-cy": `input-${name}`,
+        }}
         id="standard-secondary"
         color="secondary"
         variant="outlined"
@@ -20,9 +23,9 @@ function Input(props) {
         required={required}
         onInput={(e) => getUserInput(e.target.value, name)}
         className={classes.root}
-        data-cy={`input-${name}`}
+        data-cy={`input-${name}-wrapper`}
       />
-      {error && <p> {error}</p>}
+      {error && <p>{error}</p>}
     </>
   );
 }

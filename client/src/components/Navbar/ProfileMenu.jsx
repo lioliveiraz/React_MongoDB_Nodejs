@@ -12,6 +12,7 @@ function ProfileMenu({ profileMenu, setProfileMenu, classes }) {
   };
   return (
     <Menu
+      data-cy="profile-menu"
       anchorEl={profileMenu}
       open={Boolean(profileMenu)}
       onClose={handleCloseProfile}

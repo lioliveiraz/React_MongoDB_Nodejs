@@ -40,19 +40,24 @@ function Navbar({ handlerLogOut, isAuthenticated }) {
   };
 
   return (
-    <AppBar position="static" color="primary">
+    <AppBar position="static" color="primary" data-cy="navbar">
       <Toolbar className={classes.root}>
-        <IconButton onClick={handleMainMenu} color="inherit">
+        <IconButton
+          onClick={handleMainMenu}
+          color="inherit"
+          data-cy="navbar-menu-button"
+        >
           <MoreVertIcon />
         </IconButton>
 
         <Link color="inherit" href="/">
           <Typography variant="h4" color="inherit">
-            NAME
+            COOL WALL
           </Typography>
         </Link>
 
         <Menu
+          data-cy="menu"
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={handleClose}
@@ -77,10 +82,18 @@ function Navbar({ handlerLogOut, isAuthenticated }) {
 
         {isAuthenticated ? (
           <div>
-            <IconButton color="inherit" onClick={handleProfileMenu}>
+            <IconButton
+              color="inherit"
+              onClick={handleProfileMenu}
+              data-cy="profile-menu-toggle"
+            >
               <AccountCircle />
             </IconButton>
-            <IconButton color="inherit" onClick={handlerLogOut}>
+            <IconButton
+              color="inherit"
+              onClick={handlerLogOut}
+              data-cy="logout-icon"
+            >
               <ExitToAppIcon />
             </IconButton>
           </div>
@@ -90,6 +103,7 @@ function Navbar({ handlerLogOut, isAuthenticated }) {
             color="inherit"
             onClick={() => history.push("/login")}
             size="small"
+            data-cy="login-button"
           >
             <Typography variant="button">{SING_IN}</Typography>
           </Button>
@@ -106,6 +120,5 @@ function Navbar({ handlerLogOut, isAuthenticated }) {
 }
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  poolNotification: state.myWall.notification,
 });
 export default connect(mapStateToProps, { handlerLogOut })(Navbar);

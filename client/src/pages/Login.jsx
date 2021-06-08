@@ -21,6 +21,7 @@ function Login({ handlerLogin, errors }) {
   const classes = useStyles();
 
   const getUserInput = (value, name) => {
+    setInputErrors({});
     setUserObject({
       ...userObject,
       [name]: value,
@@ -31,12 +32,7 @@ function Login({ handlerLogin, errors }) {
     e.preventDefault();
     const validationErrors = loginValidator(userObject);
     if (validationErrors) {
-      for (const error in validationErrors) {
-        setInputErrors({
-          ...inputErrors,
-          [error]: validationErrors[error],
-        });
-      }
+      setInputErrors(validationErrors);
     } else {
       handlerLogin(userObject);
     }
@@ -62,7 +58,7 @@ function Login({ handlerLogin, errors }) {
             LOGIN
           </Typography>
 
-          <form className={classes.form}>
+          <form className={classes.form} data-cy="login-form">
             <Grid item className={classes.input}>
               <Input
                 type="email"
@@ -88,6 +84,7 @@ function Login({ handlerLogin, errors }) {
               variant="contained"
               color="secondary"
               className={classes.button}
+              data-cy="button-submit"
             >
               LogIn
             </Button>
