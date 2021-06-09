@@ -21,12 +21,17 @@ export default function profile(state = initialState, action) {
     case PROFILE_ERROR:
       return { ...state, profile: null, status: payload, loading: true };
     case UPDATE_PROFILE:
-      return { ...state, profile: payload, status: null, loading: false };
+      return {
+        ...state,
+        profile: payload,
+        status: "Your profile was updated",
+        loading: false,
+      };
     case UPDATE_PROFILE_FAIL:
       return {
         ...state,
-        status: "Your profile was updated",
-        profile: payload,
+        status: payload,
+        profile: null,
         loading: true,
       };
     case GET_ALL_PROFILES:

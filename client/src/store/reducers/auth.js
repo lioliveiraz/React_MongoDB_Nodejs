@@ -13,7 +13,7 @@ function isAdm(userToken) {
     return jwt_decode(userToken).user.adm;
   }
 
-  return null;
+  return false;
 }
 
 const initialState = {

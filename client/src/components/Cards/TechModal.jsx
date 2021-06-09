@@ -9,11 +9,13 @@ function TechModal({ name, creator, description }) {
     <Card className={classes.root}>
       <CardContent>
         <Typography gutterBottom>Technology</Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h5" component="h2" data-cy="modal-title">
           {name}
         </Typography>
-        <Typography color="inherit">{description}</Typography>
-        <Typography variant="body2" component="p">
+        <Typography color="inherit" data-cy="modal-description">
+          {description}
+        </Typography>
+        <Typography variant="body2" component="p" data-cy="modal-creator">
           {creator}
         </Typography>
       </CardContent>

@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tech Modal should match snapshot 1`] = `ShallowWrapper {}`;
+
+exports[`Tech Modal should match snapshot 2`] = `"<div class=\\"MuiPaper-root MuiCard-root makeStyles-root-1 MuiPaper-elevation1 MuiPaper-rounded\\"><div class=\\"MuiCardContent-root\\"><p class=\\"MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom\\">Technology</p><h2 class=\\"MuiTypography-root MuiTypography-h5\\" data-cy=\\"modal-title\\">name</h2><p class=\\"MuiTypography-root MuiTypography-body1 MuiTypography-colorInherit\\" data-cy=\\"modal-description\\">description</p><p class=\\"MuiTypography-root MuiTypography-body2\\" data-cy=\\"modal-creator\\">creator</p></div></div>"`;

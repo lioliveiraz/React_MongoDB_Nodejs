@@ -1,5 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Input should render correctly 1`] = `ReactWrapper {}`;
+exports[`Input should match snapshot 1`] = `ReactWrapper {}`;
 
-exports[`NavBar should render correctly 1`] = `ReactWrapper {}`;
+exports[`Input should match snapshot 2`] = `"<div class=\\"MuiFormControl-root MuiTextField-root makeStyles-root-1\\" data-cy=\\"input-name-wrapper\\"><label class=\\"MuiFormLabel-root MuiFormLabel-colorSecondary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined Mui-required Mui-required\\" data-shrink=\\"false\\" for=\\"standard-secondary\\" id=\\"standard-secondary-label\\">Name<span aria-hidden=\\"true\\" class=\\"MuiFormLabel-asterisk MuiInputLabel-asterisk\\"> *</span></label><div class=\\"MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorSecondary MuiOutlinedInput-colorSecondary MuiInputBase-formControl\\"><input aria-invalid=\\"false\\" id=\\"standard-secondary\\" name=\\"name\\" placeholder=\\"John\\" required=\\"\\" type=\\"text\\" data-cy=\\"input-name\\" class=\\"MuiInputBase-input MuiOutlinedInput-input\\" value=\\"\\"><fieldset aria-hidden=\\"true\\" class=\\"PrivateNotchedOutline-root-2 MuiOutlinedInput-notchedOutline\\"><legend class=\\"PrivateNotchedOutline-legendLabelled-4\\"><span>Name&nbsp;*</span></legend></fieldset></div></div>"`;

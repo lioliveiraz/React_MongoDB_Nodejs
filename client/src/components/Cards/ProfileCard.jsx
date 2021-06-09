@@ -26,7 +26,7 @@ function ProfileCard({ profile: { loading, profile, status } }) {
       {userProfile && (
         <div>
           <img src={userInfo.avatar} alt={userInfo.name} />
-          <h2>Name:{userInfo.name}</h2>
+          <h2 data-cy="test">Name:{userInfo.name}</h2>
           <p>Bio:{userProfile.bio}</p>
           <p>role:{userProfile.role}</p>
           <ol>

@@ -10,6 +10,20 @@ describe("Input", () => {
     wrapper.unmount();
   });
 
+  it("should match snapshot", () => {
+    wrapper = mount(
+      <Input
+        type="text"
+        name="name"
+        placeholder="John"
+        required={true}
+        getUserInput={jest.fn()}
+      />
+    );
+    expect(wrapper).toMatchSnapshot();
+
+    expect(wrapper.html()).toMatchSnapshot();
+  });
   it("should render correctly", () => {
     wrapper = mount(
       <Input
@@ -21,7 +35,6 @@ describe("Input", () => {
         error="Not valid"
       />
     );
-    expect(wrapper).toMatchSnapshot();
     const label = wrapper.find("label");
     const errorMessage = wrapper.find("p");
 
@@ -37,6 +50,7 @@ describe("Input", () => {
         placeholder="John"
         required={true}
         getUserInput={jest.fn()}
+        error="Not valid"
       />
     );
     const errorMessage = wrapper.get("p");

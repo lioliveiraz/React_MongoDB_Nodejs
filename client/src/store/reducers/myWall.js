@@ -20,11 +20,7 @@ export default function myWall(state = initialState, action) {
       };
     case UPDATE_WALL:
       return state;
-    case PUSH_NOTIFICATION:
-      return {
-        ...state,
-        notification: state.notification + 1,
-      };
+
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import { useStyles } from "./../../assets/css/Base/input";
 import { capitalize } from "./../../helpers/services";
@@ -21,11 +21,13 @@ function Input(props) {
         label={capitalize(name)}
         placeholder={placeholder}
         required={required}
-        onInput={(e) => getUserInput(e.target.value, name)}
+        onInput={(e) => {
+          getUserInput(e.target.value, name);
+        }}
         className={classes.root}
         data-cy={`input-${name}-wrapper`}
       />
-      {error && <p>{error}</p>}
+      {error && <p data-cy="input-error-message">{error}</p>}
     </>
   );
 }

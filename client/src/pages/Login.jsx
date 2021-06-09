@@ -54,7 +54,7 @@ function Login({ handlerLogin, errors }) {
       <Grid item xs={10} sm={8} md={4} className={classes.main}>
         <Paper elevation={3} className={classes.paper}>
           <img src={padlock} alt="padlock" className={classes.image} />
-          <Typography variant="p" color="primary" className={classes.title}>
+          <Typography variant="body1" color="primary" className={classes.title}>
             LOGIN
           </Typography>
 
