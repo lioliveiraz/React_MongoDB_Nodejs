@@ -38,23 +38,27 @@ function Home({
       <Grid item className={classes.wall}>
         <Wall wall={wall} />
       </Grid>
-
       <Grid container className={classes.chartsRoot}>
         <Grid item xs={12} md={6} className={classes.chart}>
           <BarChart techs={techs} name="Technologies" />
         </Grid>
       </Grid>
-
       <Grid item xs={12} md={6} className={classes.filter}>
         {categories.map(({ name, color }) => (
           <Grid item key={name}>
             <Button
               key={name}
-              variant="outlined"
+              variant={
+                getCategoryArr(name).length < 1 ? "contained" : "outlined"
+              }
               style={{
-                color: color,
-                border: `1px solid ${color}`,
+                color: getCategoryArr(name).length < 1 ? "gray" : color,
+                border:
+                  getCategoryArr(name).length < 1
+                    ? "gray"
+                    : `1px solid ${color}`,
               }}
+              disabled={getCategoryArr(name).length < 1}
               className={classes.buttons}
               onClick={() => {
                 setChartCategory(name);

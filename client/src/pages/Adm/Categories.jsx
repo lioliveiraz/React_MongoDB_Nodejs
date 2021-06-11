@@ -7,6 +7,13 @@ import { connect } from "react-redux";
 import colors from "../../assets/colors.json";
 import { toast } from "react-toastify";
 import CreateCategoryForm from "../../components/Category/CreateCategoryForm";
+import { Grid, InputLabel, Select } from "@material-ui/core";
+import MenuItem from "@material-ui/core/MenuItem";
+import Typography from "@material-ui/core/Typography";
+import { useStyles } from "./../../assets/css/Categories/categories";
+import EditIcon from "@material-ui/icons/Edit";
+import IconButton from "@material-ui/core/IconButton";
+import { capitalize } from "./../../helpers/services";
 
 function Categories({
   token,
@@ -14,7 +21,8 @@ function Categories({
   updateCategories,
   category: { categories, loading, status, errors },
 }) {
-  const [colorID, setColorID] = useState();
+  const [colorID, setColorID] = useState("60b4967d53188851a4beb8e2");
+  const classes = useStyles();
 
   useEffect(() => {
     getCategories(token);
@@ -28,42 +36,68 @@ function Categories({
 
   const updateCategoryColor = async (e) => {
     const color = e.target.value;
-    try {
-      await updateCategories(colorID, color, token);
-      setColorID(null);
-    } catch (error) {
-      toast.error(errors);
-    }
+    updateCategories(colorID, color, token);
+    setColorID(null);
   };
 
   if (loading) return <p>Loading</p>;
 
   return (
-    <div>
-      {categories.map(({ _id, name, color }) => (
-        <div key={_id}>
-          <p style={{ background: color, color: "white" }}>{name}</p>
-          <p onClick={() => setColorID(_id)}>Edit</p>
-        </div>
-      ))}
-      {colorID && (
-        <>
-          <select name="colors" id="" onChange={updateCategoryColor}>
-            <option value="white">Select Color</option>
-            {colors.map(({ hexString, name, colorId }) => (
-              <option
-                key={colorId}
-                style={{ background: hexString, color: "white" }}
-                value={hexString}
+    <Grid container className={classes.root} justify="center" align="center">
+      <Grid item className={classes.main} xs={10}>
+        {categories.map(({ _id, name, color }) => (
+          <Grid
+            item
+            key={_id}
+            style={{ background: color }}
+            className={classes.categoryField}
+          >
+            <Typography variant="body2" className={classes.categoryName}>
+              {capitalize(name)}
+            </Typography>
+            {colorID === _id ? (
+              <Grid item className={classes.select}>
+                <InputLabel id="demo-simple-select-filled-label">
+                  Color
+                </InputLabel>
+
+                <Select
+                  variant="filled"
+                  id="demo-simple-select-filled"
+                  name="colors"
+                  value={colorID}
+                  id=""
+                  onChange={updateCategoryColor}
+                  className={classes.selectField}
+                >
+                  {colors.map(({ hexString, name, colorId }) => (
+                    <MenuItem
+                      key={colorId}
+                      style={{ background: hexString, color: "white" }}
+                      value={hexString}
+                    >
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+            ) : (
+              <IconButton
+                onClick={() => setColorID(_id)}
+                data-cy="navbar-menu-button"
+                className={classes.icon}
               >
-                {name}
-              </option>
-            ))}
-          </select>
-        </>
-      )}
-      <CreateCategoryForm />
-    </div>
+                <EditIcon />
+              </IconButton>
+            )}
+          </Grid>
+        ))}
+      </Grid>
+
+      <Grid item xs={12}>
+        <CreateCategoryForm />
+      </Grid>
+    </Grid>
   );
 }
 const mapStateToProps = (state) => {

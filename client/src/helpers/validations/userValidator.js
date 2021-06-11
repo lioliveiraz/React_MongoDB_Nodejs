@@ -6,6 +6,7 @@ const schema = {
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
     .required(),
   password: Joi.string().min(8).required(),
+  adm: Joi.boolean(),
 };
 
 export default function userValidator(inputs) {

@@ -10,6 +10,8 @@ import InfoIcon from "@material-ui/icons/Info";
 import { useHistory } from "react-router-dom";
 import { useStyles } from "./../../assets/css/Developers/developers";
 
+import profile1 from "../../assets/images/profiles/profile1.jpg";
+
 function Developers({ user_id, profiles, getAllProfiles }) {
   const [developers, setDevelopers] = useState();
   const history = useHistory();
@@ -43,7 +45,7 @@ function Developers({ user_id, profiles, getAllProfiles }) {
     <GridList cellHeight={180} className={classes.root}>
       {developers.map((developer) => (
         <GridListTile key={developer._id}>
-          <img src={developer.avatar} alt={developer.name} />
+          <img src={profile1} alt={developer.name} />
           <GridListTileBar
             title={developer.name}
             subtitle={developer.email}

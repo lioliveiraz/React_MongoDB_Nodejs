@@ -9,17 +9,18 @@ import {
 describe("reducers", () => {
   const error = "error";
   describe("wall", () => {
-    let initialState = {
-      hot: [],
-      cold: [],
-      pool: [],
-      warm: [],
-      status: "",
-      errors: [],
-    };
+    let initialState;
 
     it("should return initial state", () => {
-      expect(wall(undefined, {})).toMatchObject(initialState);
+      initialState = {
+        hot: [],
+        cold: [],
+        pool: [],
+        warm: [],
+        status: "",
+        errors: [],
+      };
+      expect(wall(undefined, { type: "NULL" })).toMatchObject(initialState);
     });
 
     it("should return all the techs", () => {
@@ -34,9 +35,14 @@ describe("reducers", () => {
       expect(wall(undefined, action)).toMatchObject(initialState);
     });
 
-    it("should return initial state", () => {
+    it("should update and  return initial state", () => {
       const action = {
         type: UPDATE_WALL,
+      };
+
+      initialState = {
+        ...initialState,
+        pool: [],
       };
 
       expect(wall(undefined, action)).toMatchObject(initialState);
@@ -60,6 +66,7 @@ describe("reducers", () => {
       };
       initialState = {
         ...initialState,
+        pool: [],
         status: "",
         errors: error,
       };

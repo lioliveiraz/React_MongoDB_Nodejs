@@ -14,6 +14,12 @@ export const useStylesMyWall = makeStyles((theme) => ({
     alignItems: "center",
     color: "white",
   },
+  title: {
+    textTransform: "uppercase",
+    fontWeight: 700,
+    textAlign: "center",
+    padding: "0.5rem",
+  },
   columns: {
     width: "80%",
     marginTop: "10px",

@@ -30,7 +30,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --colors",
     "eject": "react-scripts eject",
     "test:ci": "react-scripts test  --coverage --watchAll"
   },
@@ -56,5 +56,15 @@
     "cypress": "^7.4.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-15": "^1.4.3"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/jest.config.js",
+      "<rootDir>/src/reportWebVitals.js",
+      "<rootDir>/src/ThemeProvider.js",
+      "<rootDir>/src/index.js",
+      "<rootDir>/src/components/Routing",
+      "<rootDir>/src/assets/css"
+    ]
   }
 }

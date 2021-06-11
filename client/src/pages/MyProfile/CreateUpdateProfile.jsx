@@ -4,6 +4,14 @@ import { upDateProfile } from "./../../store/actions/profile";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import profileValidator from "../../helpers/validations/profileValidator";
+import { Grid, TextareaAutosize } from "@material-ui/core";
+import Paper from "@material-ui/core/Paper";
+import { useStyles } from "./../../assets/css/Profile/profile";
+import Typography from "@material-ui/core/Typography";
+import { Select, InputLabel } from "@material-ui/core";
+import MenuItem from "@material-ui/core/MenuItem";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 
 function CreateUpdateProfile({ token, upDateProfile }) {
   const history = useHistory();
@@ -12,8 +20,8 @@ function CreateUpdateProfile({ token, upDateProfile }) {
   });
   const [skill, setSkill] = useState("");
   const [errors, setErrors] = useState({});
-
   const [toggleSocialMedia, setToggleSocialMedia] = useState(false);
+  const classes = useStyles();
 
   const handleUserInput = (value, name) => {
     setObject({
@@ -43,89 +51,136 @@ function CreateUpdateProfile({ token, upDateProfile }) {
   };
 
   return (
-    <form>
-      <textarea
-        name="bio"
-        cols="30"
-        rows="10"
-        max="500"
-        onChange={(e) => handleUserInput(e.target.value, e.target.name)}
-        placeholder="Bio"
-      />
-      {errors.bio && errors.bio}
-      <input
-        value={skill}
-        type="text"
-        name="skills"
-        onChange={(e) => setSkill(e.target.value)}
-        onKeyUp={(e) => addSkillToArray(e.code, e.target.value)}
-        placeholder="css,html,javascript"
-      />
+    <Grid container justify="center" align="center" className={classes.root}>
+      <Grid item xs={10} className={classes.main}>
+        <Paper elevation={2} className={classes.paper}>
+          <Grid item>
+            <Typography variant="h3" color="primary" className={classes.title}>
+              My profile
+            </Typography>
+          </Grid>
+          <Grid item>
+            <form className={classes.form}>
+              <Grid item className={classes.input}>
+                <TextField
+                  value={skill}
+                  type="text"
+                  name="skills"
+                  onChange={(e) => setSkill(e.target.value)}
+                  onKeyUp={(e) => addSkillToArray(e.code, e.target.value)}
+                  placeholder="CSS, HTML, javascript"
+                />
 
-      {profileObject.skills
-        ? profileObject.skills.join()
-        : "Separate with comma to add to the list"}
-      <select
-        name="role"
-        onChange={(e) => handleUserInput(e.target.value, "role")}
-      >
-        <option value="">Select Your role</option>
-        {roles.map((role) => (
-          <option key={role} value={role}>
-            {role}
-          </option>
-        ))}
-      </select>
-      {errors.role && errors.role}
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          setToggleSocialMedia(!toggleSocialMedia);
-        }}
-      >
-        Add social media
-      </button>
+                {profileObject.skills
+                  ? profileObject.skills.join()
+                  : "Separate with comma to add to the list"}
+              </Grid>
 
-      {toggleSocialMedia ? (
-        <>
-          <Input
-            name="githubusername"
-            label="Git Hub"
-            required={false}
-            type="text"
-            getUserInput={handleUserInput}
-            placeholder="GitHub username"
-            error={errors.githubusername && errors.githubusername}
-          />
-          <Input
-            name="youtube"
-            required={false}
-            type="text"
-            placeholder="Youtube username"
-            getUserInput={handleUserInput}
-            error={errors.youtube && errors.youtube}
-          />
-          <Input
-            name="twitter"
-            required={false}
-            type="text"
-            placeholder="Twitter username"
-            getUserInput={handleUserInput}
-            error={errors.twitter && errors.twitter}
-          />
-          <Input
-            name="linkedin"
-            required={false}
-            type="text"
-            placeholder="Llinkedin username"
-            getUserInput={handleUserInput}
-            error={errors.linkedin && errors.linkedin}
-          />
-        </>
-      ) : null}
+              <Grid item className={classes.input}>
+                <InputLabel id="demo-simple-select-label">
+                  Select Role{" "}
+                </InputLabel>{" "}
+                <Select
+                  labelId="demo-simple-select-label"
+                  className={classes.select}
+                  name="role"
+                  onChange={(e) => handleUserInput(e.target.value, "role")}
+                >
+                  <MenuItem value="">Select Your role</MenuItem>
+                  {roles.map((role) => (
+                    <MenuItem key={role} value={role}>
+                      {role}
+                    </MenuItem>
+                  ))}
+                </Select>
+                {errors.role && errors.role}
+                <Grid item className={classes.input}>
+                  <TextareaAutosize
+                    name="bio"
+                    cols="30"
+                    rows="10"
+                    max="500"
+                    onChange={(e) =>
+                      handleUserInput(e.target.value, e.target.name)
+                    }
+                    placeholder="Bio"
+                  />
+                  {errors.bio && errors.bio}
+                </Grid>
+              </Grid>
 
-      <button onClick={submit}> Send</button>
-    </form>
+              {toggleSocialMedia ? (
+                <Grid item>
+                  <Grid item className={classes.input}>
+                    <Input
+                      name="githubusername"
+                      label="Git Hub"
+                      required={false}
+                      type="text"
+                      getUserInput={handleUserInput}
+                      placeholder="GitHub username"
+                      error={errors.githubusername && errors.githubusername}
+                    />
+                  </Grid>
+                  <Grid item className={classes.input}>
+                    <Input
+                      name="youtube"
+                      required={false}
+                      type="text"
+                      placeholder="Youtube username"
+                      getUserInput={handleUserInput}
+                      error={errors.youtube && errors.youtube}
+                    />
+                  </Grid>
+                  <Grid item className={classes.input}>
+                    <Input
+                      name="twitter"
+                      required={false}
+                      type="text"
+                      placeholder="Twitter username"
+                      getUserInput={handleUserInput}
+                      error={errors.twitter && errors.twitter}
+                    />
+                  </Grid>
+                  <Grid item className={classes.input}>
+                    <Input
+                      name="linkedin"
+                      required={false}
+                      type="text"
+                      placeholder="Llinkedin username"
+                      getUserInput={handleUserInput}
+                      error={errors.linkedin && errors.linkedin}
+                    />
+                  </Grid>
+                </Grid>
+              ) : (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setToggleSocialMedia(!toggleSocialMedia);
+                  }}
+                  className={classes.button}
+                >
+                  Add social media
+                </Button>
+              )}
+
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={submit}
+                className={classes.button}
+              >
+                {" "}
+                Send
+              </Button>
+            </form>
+          </Grid>
+        </Paper>
+      </Grid>
+    </Grid>
   );
 }
 

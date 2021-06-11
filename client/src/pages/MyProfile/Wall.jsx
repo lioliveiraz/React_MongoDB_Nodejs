@@ -95,7 +95,10 @@ function Wall({
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
-                    {columnName}
+                    <Typography variant="h4" className={classes.title}>
+                      {columnName}{" "}
+                    </Typography>
+
                     {techs &&
                       techs.map(
                         ({ _id, name, category: category_ID }, index) => (
@@ -110,8 +113,13 @@ function Wall({
                                 >
                                   <Typography
                                     variant="body1"
+                                    className={classes.title}
                                     style={{
-                                      background: categoryColor(category_ID),
+                                      color: categoryColor(category_ID),
+                                      border: `2px solid ${categoryColor(
+                                        category_ID
+                                      )}`,
+                                      background: "white",
                                     }}
                                   >
                                     {name}

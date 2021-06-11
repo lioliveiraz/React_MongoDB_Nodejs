@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import { useStyles } from "./../../assets/css/Base/input";
 import { capitalize } from "./../../helpers/services";
+import Typography from "@material-ui/core/Typography";
 
 function Input(props) {
   const { type, name, placeholder, required, getUserInput, error } = props;
@@ -27,7 +28,15 @@ function Input(props) {
         className={classes.root}
         data-cy={`input-${name}-wrapper`}
       />
-      {error && <p data-cy="input-error-message">{error}</p>}
+      {error && (
+        <Typography
+          variant="body1"
+          data-cy="input-error-message"
+          className={classes.errorMessage}
+        >
+          {error}
+        </Typography>
+      )}
     </>
   );
 }

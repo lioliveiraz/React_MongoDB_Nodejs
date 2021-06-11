@@ -34,6 +34,7 @@ export const upDateProfile =
       dispatch({ type: UPDATE_PROFILE, payload: res.data });
       history.push("/my-profile");
     } catch (error) {
+      console.log(error);
       dispatch({
         type: UPDATE_PROFILE_FAIL,
         payload: { error: "Something went wrong" },

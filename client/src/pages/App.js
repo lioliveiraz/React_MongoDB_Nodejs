@@ -26,10 +26,9 @@ function App({ isAuthenticated }) {
 
   return (
     <Grid container className={classes.root}>
-      <Grid item xs={12} className={classes.nav}>
+      <Grid item xs={12} className={classes.nav} data-cy="nav-bar">
         <Navbar />
       </Grid>
-
       <Grid item xs={12} className={classes.main}>
         <Switch>
           {/*without*/}
